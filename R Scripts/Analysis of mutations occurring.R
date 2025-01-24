@@ -15,7 +15,7 @@
 ###### Data setup ###### 
 
 #Selection of only the Mutation data
-#Making the data a vector, so str_split can be used to split the data u[]
+#Making the data a vector, so str_split can be used to split the data
 list_mutations <- as.vector(practice_spike_df$Mutations)
 #colnames(most_common_mutations)[1] <- "Mutations"
 
@@ -25,8 +25,12 @@ list_mutations <- as.vector(practice_spike_df$Mutations)
 list_mutations <- str_split(list_mutations, pattern = "\\|",
                                    n = Inf, simplify = FALSE)
 
-list_mutations <- data.frame(list_mutations)
+
+#Converted to a list_mutations to a matrix first
+#Then converted to a data frame, as unnest needs a data frame to work
+list_mutations <- as.matrix(list_mutations)
 colnames(list_mutations)[1] <- "Mutations"
+list_mutations <- data.frame(list_mutations)
 
 
 ###### Counting the frequency of the different mutations ###### 
