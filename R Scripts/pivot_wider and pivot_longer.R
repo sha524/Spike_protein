@@ -11,15 +11,38 @@
 
 ###### Data Manipulation ######
 
-##Going to select just the Sequence Information and Mutations columns
-##Will just be easier to work with
+#Going to select just the Sequence Information and Mutations columns
+#Will just be easier to work with
 
 view(practice_spike_df)
 sequence_mutations_data <- practice_spike_df %>%
   select(Sequence_Information, Mutations) %>%
 view()
 
-sequence_mutations_data %>%
-  
+#Using the separate_longer_delim() function to split the mutations by |
+#separate_longer_delim() then makes a new row for that split
+#from the tidyr package
+separated_rows <- sequence_mutations_data %>%
+  separate_longer_delim(Mutations, delim = "|") %>%
+  view()
+
+
+###### pivot_wider() ######
+
+#Using pivot_wider to get wide data
+wide_data <- separated_rows %>%
+  pivot_wider(names_from = "Mutations", values_from = "Mutations") %>%
+  view()
+
+#Need to replace all NA values with 0's and all
+#values where a mutation is present with 1's
+no_na <- wide_data %>%
+  select(-Sequence_Information) %>%
+  is.na() %>%
+  view()
+
+
+
+
 
 
