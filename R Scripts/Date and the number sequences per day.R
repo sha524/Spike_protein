@@ -16,6 +16,8 @@
 
 #Data used old_UK_seqs_msa_0522_spike_mutations
 
+#Plotting the number of sequences per day (First 100 sequences)
+
 
 
 
@@ -134,6 +136,28 @@ ggplot(sequences_per_day2, aes(x = Sample_Date, y = num_sequences, colour = Samp
 # ggplot(spike_df, aes(x = Sequence_Information, y = num_mutations)) +
 #    geom_point()
 
+
+
+###### Number of sequences per day for the first 100 sequences ######
+
+#Going to use the practice_spike_df data
+view(practice_spike_df)
+
+#Check the sample date is in the correct format
+practice_spike_df$Sample_Date <- as.Date(practice_spike_df$Sample_Date)
+
+#Count the number of sequences per day
+sequences_per_day3 <- practice_spike_df %>%
+  group_by(Sample_Date) %>%
+  summarise(num_sequences = n_distinct(Sequence_Information)) %>%
+  view()
+
+#Plot the number of sequences per day
+ggplot(sequences_per_day3, aes(x = Sample_Date, y = num_sequences, colour = Sample_Date)) +
+  geom_point() +
+  ylab("Number of sequences") +
+  xlab("Sample date") +
+  theme_classic()
 
 
 
