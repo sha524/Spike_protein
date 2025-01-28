@@ -21,8 +21,6 @@
 
 
 
-
-
 ### Information about the data ###
 #This data is for mutations of the spike protein only
 
