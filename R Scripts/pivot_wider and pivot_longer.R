@@ -38,8 +38,26 @@ wide_data <- separated_rows %>%
 #values where a mutation is present with 1's
 no_na <- wide_data %>%
   select(-Sequence_Information) %>%
-  is.na() %>%
+  mutate(across(everything(), ~ ifelse(is.na(.), "0", "1"))) %>%
   view()
+
+
+###### Completed data ######
+
+#Need to recombine the vectorised data with the sequence information
+#Going to look to use a join()
+
+view(wide_data)
+sequence_information_column <- wide_data %>%
+  select(Sequence_Information) %>%
+  view()
+
+#complete_wide_data contains the vectorised data
+#1's represent where the mutation is present and 0's show where
+#a mutation is not present
+complete_wide_data <- data.frame(c(sequence_information_column, no_na))
+view(complete_wide_data)
+
 
 
 
