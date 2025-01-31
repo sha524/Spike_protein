@@ -55,9 +55,44 @@ UK_sequences_df$Number_of_mutations <- str_count(UK_sequences_df$Mutations, patt
 
 ###### Extracting the data using a regular expression ######
 UK_sequences_df$Sample_date <- str_extract(UK_sequences_df$Sequence_Information,
-                                           pattern = )
+                                           pattern = "[0-9]{4}-[0-9]{2}-[0-9]{2}")
 
 
+
+###### Dealing with NA values ######
+
+#Shows the exact locations of the NA values
+which(is.na(UK_sequences_df), arr.ind = TRUE)
+
+#The outputs that there are lots of missing NA values
+#in the Sample_date column
+
+UK_sequences_df[38879, ]
+
+#Output:
+#hCoV-19/England/NORT-YNNTWN9/2022|EPI_ISL_11743052
+#Date is not the format provided by the regular expression
+
+
+###### Calculate the number of sequences per day ######
+
+#Need to check the date first
+UK_sequences_df$Sample_date <- as.Date(UK_sequences_df$Sample_date)
+
+#Going to use the count() verb to count the number of sequences
+#Going to use na.omit remove any NA values
+actual_sequences_per_day <- UK_sequences_df %>%
+  count(Sample_date) %>%
+  na.omit()
+
+
+
+###### Plot the number of sequences per day ######
+ggplot(actual_sequences_per_day, aes(x = Sample_date, y = n, colour = Sample_date)) +
+  geom_point() +
+  ylab("Number of sequences per day") +
+  xlab("Sample date") +
+  theme_bw()
 
 
 
