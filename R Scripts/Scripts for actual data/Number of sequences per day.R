@@ -98,6 +98,38 @@ ggplot(actual_sequences_per_day, aes(x = Sample_date, y = n, colour = Sample_dat
 
 
 
+###### More in-depth analysis of the number of sequences per day ######
+
+#What day had the most sequences?
+max_day <- actual_sequences_per_day %>%
+  arrange(desc(n)) %>%
+  head(1)
+
+#What day had the least sequences?
+min_day <- actual_sequences_per_day %>%
+  arrange(desc(n)) %>%
+  tail(1)
+
+#What year had the most sequences
+#Going to look to use a regular expression to group each year together
+#2020, 2021, 2022, 2023 and 2024
+#year_2020 <- tibble(str_extract_all(actual_sequences_per_day$Sample_date, pattern = "2020.*"))
+
+colnames(year_2020)[1] <- "Year_of_sample_date"
+year_2020$Year_of_sample_date <- as.Date(year_2020$Year_of_sample_date)
+
+#Separating the sample dates by year
+#Each column contains a different date
+separate_years <- actual_sequences_per_day %>%
+  mutate(year_2020 = str_extract(Sample_date, pattern = "2020.*")) %>%
+  mutate(year_2021 = str_extract(Sample_date, pattern = "2021.*")) %>%
+  mutate(year_2022 = str_extract(Sample_date, pattern = "2022.*")) %>%
+  mutate(year_2023 = str_extract(Sample_date, pattern = "2023.*")) %>%
+  mutate(year_2024 = str_extract(Sample_date, pattern = "2024.*"))
+
+#Going to place each year into its on tibble
+#Will then look to recombine
+
 
 
 
