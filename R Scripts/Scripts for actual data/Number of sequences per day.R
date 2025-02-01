@@ -18,7 +18,8 @@
 
 #Plot the number of sequences per day
 
-
+#Additional more in-depth analysis:
+#Includes separation of each year into separate groups
 
 
 ###### Set up ######
@@ -129,6 +130,33 @@ separate_years <- actual_sequences_per_day %>%
 
 #Going to place each year into its on tibble
 #Will then look to recombine
+
+#year 2020
+year_2020 <- separate_years %>%
+  select(year_2020, n) %>%
+  na.omit()
+  
+#year 2021
+year_2021 <- separate_years %>%
+  select(year_2021, n) %>%
+  na.omit()
+
+#year 2022
+year_2022 <- separate_years %>%
+  select(year_2022, n) %>%
+  na.omit()
+
+#year 2023
+year_2023 <- separate_years %>%
+  select(year_2023, n) %>%
+  na.omit()
+
+#year 2023
+year_2024 <- separate_years %>%
+  select(year_2024, n) %>%
+  na.omit()
+
+
 
 
 
