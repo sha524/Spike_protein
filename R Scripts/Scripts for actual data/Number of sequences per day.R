@@ -91,7 +91,6 @@ actual_sequences_per_day <- UK_sequences_df %>%
   na.omit()
 
 
-
 ###### Plot the number of sequences per day ######
 ggplot(actual_sequences_per_day, aes(x = Sample_date, y = n, colour = Sample_date)) +
   geom_point() +
