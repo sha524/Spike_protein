@@ -20,6 +20,7 @@
 
 #Additional more in-depth analysis:
 #Includes separation of each year into separate groups
+#What day had the most and least number of sequences per day
 
 
 ###### Set up ######
