@@ -75,6 +75,9 @@ UK_sequences_df[38879, ]
 #hCoV-19/England/NORT-YNNTWN9/2022|EPI_ISL_11743052
 #Date is not the format provided by the regular expression
 
+#Going to remove the NA values
+UK_sequences_df <- UK_sequences_df %>%
+  na.omit()
 
 ###### Calculate the number of sequences per day ######
 
