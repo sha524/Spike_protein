@@ -11,7 +11,7 @@
 
 #All performed on the practice data
 
-#Practice data contains the first 100 sequences from old_UK_seqs_msa_0522_spike_mutations
+#Plotted the number of mutations per sequence
 
 
 
