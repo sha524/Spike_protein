@@ -59,7 +59,7 @@ ggplot(most_number_of_mutations, aes(x = Sequence_Information, y = Number_of_mut
 top_10_most_mutations <- most_number_of_mutations %>%
   head(10)
 
-ggplot(top_10_most_mutations, aes(x = non_mutations, syn_mutations,))
+
 
   
   
