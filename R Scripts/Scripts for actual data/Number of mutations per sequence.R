@@ -9,10 +9,7 @@
 #Create two new columns, one for the number of syn mutations and one for
 #the number of non mutations
 
-#Plot of the number of mutations per day for the actual data
-
-#Any further analysis
-
+#Plot of the top 20 sequences with the most mutations per sequence
 
 
 
