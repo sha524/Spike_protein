@@ -94,11 +94,24 @@ actual_sequences_per_day <- UK_sequences_df %>%
 ###### Plot the number of sequences per day ######
 ggplot(actual_sequences_per_day, aes(x = Sample_date, y = n, colour = Sample_date)) +
   geom_point() +
+  geom_smooth(method = "gam", se = FALSE, linewidth = 1.5, colour = "blue") +
+  geom_rect(aes(xmin = as.Date("2020-05-01"), xmax = as.Date("2020-09-01"),
+            ymin = 0, ymax = Inf, fill = "blue"), alpha = .005,
+            colour = "red", linetype = "dashed") +
+  geom_rect(aes(xmin = as.Date("2020-09-01"), xmax = as.Date("2020-10-01"),
+                ymin = 0, ymax = Inf, fill = "red"), alpha = 0.005,
+            colour = "blue", linetype = "dashed") +
   ylab("Number of sequences per day") +
   xlab("Sample date") +
-  theme_bw()
+  theme(panel.background = element_rect(fill = "white"),
+        axis.line = element_line(colour = "black")) +
+  labs(colour = "Sample date")
 
 
+#Using generalised linear model (gam)
+#A type of regression model for non-linear relationships
+#between predictor variables and their response variables
+#Regression looks at the relationship between two variables
 
 
 
