@@ -96,19 +96,40 @@ ggplot(actual_sequences_per_day, aes(x = Sample_date, y = n, colour = Sample_dat
   geom_point() +
   geom_smooth(method = "gam", se = FALSE, linewidth = 1.5, colour = "blue") +
   geom_rect(aes(xmin = as.Date("2020-05-01"), xmax = as.Date("2020-09-01"),
-            ymin = 0, ymax = Inf, fill = "blue"), alpha = .005,
+            ymin = 0, ymax = Inf, fill = "red"), alpha = .005,
             colour = "red", linetype = "dashed") +
   geom_rect(aes(xmin = as.Date("2020-09-01"), xmax = as.Date("2020-10-01"),
-                ymin = 0, ymax = Inf, fill = "red"), alpha = 0.005,
+                ymin = 0, ymax = Inf, fill = "blue"), alpha = 0.005,
             colour = "blue", linetype = "dashed") +
+  geom_rect(aes(xmin = as.Date("2020-10-01"), xmax = as.Date("2020-11-01"),
+                ymin = 0, ymax = Inf, fill = "green"), alpha = 0.005,
+            colour = "green", linetype = "dashed") +
+  geom_rect(aes(xmin = as.Date("2020-11-01"), xmax = as.Date("2021-11-09"),
+                ymin = 0, ymax = Inf, fill = "yellow"), alpha = 0.005,
+            colour = "yellow", linetype = "dashed") +
+  geom_rect(aes(xmin = as.Date("2021-11-09"), xmax = as.Date(Inf),
+                ymin = 0, ymax = Inf, fill = "purple"), alpha = 0.005,
+            colour = "purple", linetype = "dashed") +
+  annotate("text", x = as.Date("2020-08-01"), y = 15000,
+           label = expression(beta), size = 4, colour = "black") +
+  annotate("text", x = as.Date("2020-09-15"), y = 15000,
+           label = expression(alpha), size = 4, colour = "black") +
+  annotate("text", x = as.Date("2020-10-15"), y = 15000,
+           label = expression(delta), size = 4, colour = "black") +
+  annotate("text", x = as.Date("2021-10-01"), y = 15000,
+           label = expression(gamma), size = 4, colour = "black") +
+  annotate("text", x = as.Date("2024-06-01"), y = 15000,
+           label = expression(omicron), size = 4, colour = "black") +
   ylab("Number of sequences per day") +
   xlab("Sample date") +
   theme(panel.background = element_rect(fill = "white"),
         axis.line = element_line(colour = "black")) +
-  labs(colour = "Sample date")
+  labs(colour = "Sample date") +
+  scale_fill_manual(name = "Time Period", 
+                    values = c("red", "blue", "green", "yellow", "purple"))
 
 
-#Using generalised linear model (gam)
+#Using a generalised linear model (gam)
 #A type of regression model for non-linear relationships
 #between predictor variables and their response variables
 #Regression looks at the relationship between two variables
