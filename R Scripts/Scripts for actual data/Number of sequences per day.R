@@ -96,36 +96,37 @@ ggplot(actual_sequences_per_day, aes(x = Sample_date, y = n, colour = Sample_dat
   geom_point() +
   geom_smooth(method = "gam", se = FALSE, linewidth = 1.5, colour = "blue") +
   geom_rect(aes(xmin = as.Date("2020-05-01"), xmax = as.Date("2020-09-01"),
-            ymin = 0, ymax = Inf, fill = "red"), alpha = .005,
-            colour = "red", linetype = "dashed") +
-  geom_rect(aes(xmin = as.Date("2020-09-01"), xmax = as.Date("2020-10-01"),
-                ymin = 0, ymax = Inf, fill = "blue"), alpha = 0.005,
-            colour = "blue", linetype = "dashed") +
-  geom_rect(aes(xmin = as.Date("2020-10-01"), xmax = as.Date("2020-11-01"),
-                ymin = 0, ymax = Inf, fill = "green"), alpha = 0.005,
-            colour = "green", linetype = "dashed") +
-  geom_rect(aes(xmin = as.Date("2020-11-01"), xmax = as.Date("2021-11-09"),
-                ymin = 0, ymax = Inf, fill = "yellow"), alpha = 0.005,
+            ymin = 0, ymax = 16000, fill = "red"), alpha = .005,
             colour = "yellow", linetype = "dashed") +
-  geom_rect(aes(xmin = as.Date("2021-11-09"), xmax = as.Date(Inf),
-                ymin = 0, ymax = Inf, fill = "purple"), alpha = 0.005,
+  geom_rect(aes(xmin = as.Date("2020-09-01"), xmax = as.Date("2020-10-01"),
+                ymin = 0, ymax = 16000, fill = "blue"), alpha = 0.005,
+            colour = "red", linetype = "dashed") +
+  geom_rect(aes(xmin = as.Date("2020-10-01"), xmax = as.Date("2020-11-01"),
+                ymin = 0, ymax = 16000, fill = "green"), alpha = 0.005,
+            colour = "blue", linetype = "dashed") +
+  geom_rect(aes(xmin = as.Date("2020-11-01"), xmax = as.Date("2021-11-09"),
+                ymin = 0, ymax = 16000, fill = "yellow"), alpha = 0.005,
             colour = "purple", linetype = "dashed") +
-  annotate("text", x = as.Date("2020-08-01"), y = 15000,
-           label = expression(beta), size = 4, colour = "black") +
-  annotate("text", x = as.Date("2020-09-15"), y = 15000,
-           label = expression(alpha), size = 4, colour = "black") +
-  annotate("text", x = as.Date("2020-10-15"), y = 15000,
-           label = expression(delta), size = 4, colour = "black") +
-  annotate("text", x = as.Date("2021-10-01"), y = 15000,
-           label = expression(gamma), size = 4, colour = "black") +
-  annotate("text", x = as.Date("2024-06-01"), y = 15000,
-           label = expression(omicron), size = 4, colour = "black") +
+  geom_rect(aes(xmin = as.Date("2021-11-09"), xmax = as.Date("2024-12-29"),
+                ymin = 0, ymax = 16000, fill = "purple"), alpha = 0.005,
+            colour = "green", linetype = "dashed") +
+  annotate("text", x = as.Date("2020-05-10"), y = 15810,
+           label = expression(beta), size = 5, colour = "black",) +
+  annotate("text", x = as.Date("2020-09-18"), y = 15810,
+           label = expression(alpha), size = 5, colour = "black") +
+  annotate("text", x = as.Date("2020-10-23"), y = 15810,
+           label = expression(delta), size = 5, colour = "black") +
+  annotate("text", x = as.Date("2021-11-01"), y = 15810,
+           label = expression(gamma), size = 5, colour = "black") +
+  annotate("text", x = as.Date("2024-12-20"), y = 15810,
+           label = expression(omicron), size = 5, colour = "black") +
   ylab("Number of sequences per day") +
   xlab("Sample date") +
   theme(panel.background = element_rect(fill = "white"),
-        axis.line = element_line(colour = "black")) +
+        axis.line = element_line(colour = "black"),
+        legend.position = "none") +
   labs(colour = "Sample date") +
-  scale_fill_manual(name = "Time Period", 
+  scale_fill_manual(name = "SARS-CoV-2 strain", 
                     values = c("red", "blue", "green", "yellow", "purple"))
 
 
@@ -171,26 +172,31 @@ separate_years <- actual_sequences_per_day %>%
 #year 2020
 year_2020 <- separate_years %>%
   select(year_2020, n) %>%
+  arrange(desc(n)) %>%
   na.omit()
   
 #year 2021
 year_2021 <- separate_years %>%
   select(year_2021, n) %>%
+  arrange(desc(n)) %>%
   na.omit()
 
 #year 2022
 year_2022 <- separate_years %>%
   select(year_2022, n) %>%
+  arrange(desc(n)) %>%
   na.omit()
 
 #year 2023
 year_2023 <- separate_years %>%
   select(year_2023, n) %>%
+  arrange(desc(n)) %>%
   na.omit()
 
 #year 2023
 year_2024 <- separate_years %>%
   select(year_2024, n) %>%
+  arrange(desc(n)) %>%
   na.omit()
 
 
