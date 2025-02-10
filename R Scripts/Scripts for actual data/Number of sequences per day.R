@@ -93,22 +93,22 @@ actual_sequences_per_day <- UK_sequences_df %>%
 
 ###### Plot the number of sequences per day ######
 ggplot(actual_sequences_per_day, aes(x = Sample_date, y = n, colour = Sample_date)) +
-  geom_point() +
-  geom_smooth(method = "gam", se = FALSE, linewidth = 1.5, colour = "blue") +
+  geom_col() +
+  geom_smooth(method = "gam", se = FALSE, linewidth = 1.5, colour = "black") +
   geom_rect(aes(xmin = as.Date("2020-05-01"), xmax = as.Date("2020-09-01"),
-            ymin = 0, ymax = 16000, fill = "red"), alpha = .005,
+            ymin = 0, ymax = 16000, fill = "red"), alpha = .003,
             colour = "yellow", linetype = "dashed") +
   geom_rect(aes(xmin = as.Date("2020-09-01"), xmax = as.Date("2020-10-01"),
-                ymin = 0, ymax = 16000, fill = "blue"), alpha = 0.005,
+                ymin = 0, ymax = 16000, fill = "blue"), alpha = 0.003,
             colour = "red", linetype = "dashed") +
   geom_rect(aes(xmin = as.Date("2020-10-01"), xmax = as.Date("2020-11-01"),
-                ymin = 0, ymax = 16000, fill = "green"), alpha = 0.005,
+                ymin = 0, ymax = 16000, fill = "green"), alpha = 0.003,
             colour = "blue", linetype = "dashed") +
   geom_rect(aes(xmin = as.Date("2020-11-01"), xmax = as.Date("2021-11-09"),
-                ymin = 0, ymax = 16000, fill = "yellow"), alpha = 0.005,
+                ymin = 0, ymax = 16000, fill = "yellow"), alpha = 0.003,
             colour = "purple", linetype = "dashed") +
   geom_rect(aes(xmin = as.Date("2021-11-09"), xmax = as.Date("2024-12-29"),
-                ymin = 0, ymax = 16000, fill = "purple"), alpha = 0.005,
+                ymin = 0, ymax = 16000, fill = "purple"), alpha = 0.003,
             colour = "green", linetype = "dashed") +
   annotate("text", x = as.Date("2020-05-10"), y = 15810,
            label = expression(beta), size = 5, colour = "black",) +
@@ -122,9 +122,14 @@ ggplot(actual_sequences_per_day, aes(x = Sample_date, y = n, colour = Sample_dat
            label = expression(omicron), size = 5, colour = "black") +
   ylab("Number of sequences per day") +
   xlab("Sample date") +
+  scale_x_continuous(breaks = c(as.Date("2020-01-01"), as.Date("2021-01-01"),
+                                as.Date("2022-01-01"), as.Date("2023-01-01"), as.Date("2024-01-01"),
+                                as.Date("2020-12-08")), labels = c("2020", "2021", "2022", "2023", "2024",
+                                                                  "Pfizer vaccine")) +
   theme(panel.background = element_rect(fill = "white"),
         axis.line = element_line(colour = "black"),
-        legend.position = "none") +
+        legend.position = "none",
+        plot.margin = unit(c(2, 2, 2, 2), "cm")) +
   labs(colour = "Sample date") +
   scale_fill_manual(name = "SARS-CoV-2 strain", 
                     values = c("red", "blue", "green", "yellow", "purple"))
