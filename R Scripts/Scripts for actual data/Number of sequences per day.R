@@ -92,7 +92,7 @@ actual_sequences_per_day <- UK_sequences_df %>%
 
 
 ###### Plot the number of sequences per day ######
-ggplot(actual_sequences_per_day, aes(x = Sample_date, y = n, colour = Sample_date)) +
+main_plot <- ggplot(actual_sequences_per_day, aes(x = Sample_date, y = n, colour = Sample_date)) +
   geom_col() +
   geom_smooth(method = "gam", se = FALSE, linewidth = 1.5, colour = "black") +
   geom_rect(aes(xmin = as.Date("2020-05-01"), xmax = as.Date("2020-09-01"),
@@ -130,7 +130,7 @@ ggplot(actual_sequences_per_day, aes(x = Sample_date, y = n, colour = Sample_dat
   theme(panel.background = element_rect(fill = "white"),
         axis.line = element_line(colour = "black"),
         legend.position = "none",
-        plot.margin = unit(c(2, 2, 2, 2), "cm"),
+        plot.margin = unit(c(1, 1, 1, 1), "cm"),
         axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 0.5, size = 10),
         axis.title.x = element_text(size = 15, face = "bold"),
         axis.title.y = element_text(size = 15, face = "bold")) +
@@ -185,8 +185,8 @@ year_2020 <- separate_years %>%
   na.omit()
 
 #Visualisation of year 2020
-ggplot(year_2020, aes(x = year_2020, y = n)) +
-  geom_col(fill = "dodgerblue") +
+plot_2020 <- ggplot(year_2020, aes(x = year_2020, y = n)) +
+  geom_col(fill = "dodgerblue4") +
   xlab("Sample Year 2020") +
   ylab("Number of sequences per day") +
   ylim(0, 15000) +
@@ -194,7 +194,8 @@ ggplot(year_2020, aes(x = year_2020, y = n)) +
                    labels = c("January", "December")) +
   theme(panel.background = element_rect(fill = "white"),
         axis.line = element_line(colour = "black"),
-        axis.title = element_text(face = "bold"))
+        axis.title = element_text(face = "bold"),
+        plot.margin = unit(c(1, 1, 1, 1), "cm"))
   
 
 #year 2021
@@ -203,8 +204,8 @@ year_2021 <- separate_years %>%
   na.omit()
 
 #Visualisation of year 2021
-ggplot(year_2021, aes(x = year_2021, y = n)) +
-  geom_col(fill = "dodgerblue1") +
+plot_2021 <- ggplot(year_2021, aes(x = year_2021, y = n)) +
+  geom_col(fill = "dodgerblue3") +
   xlab("Sample Year 2021") +
   ylab("Number of sequences per day") +
   ylim(0, 15000) +
@@ -212,7 +213,8 @@ ggplot(year_2021, aes(x = year_2021, y = n)) +
                    labels = c("January", "December")) +
   theme(panel.background = element_rect(fill = "white"),
         axis.line = element_line(colour = "black"),
-        axis.title = element_text(face = "bold"))
+        axis.title = element_text(face = "bold"),
+        plot.margin = unit(c(1, 1, 1, 1), "cm"))
 
 
 
@@ -223,7 +225,7 @@ year_2022 <- separate_years %>%
   na.omit()
 
 #Visualisation of year 2022
-ggplot(year_2022, aes(x = year_2022, y = n)) +
+plot_2022 <- ggplot(year_2022, aes(x = year_2022, y = n)) +
   geom_col(fill = "dodgerblue2") +
   xlab("Sample Year 2022") +
   ylab("Number of sequences per day") +
@@ -231,7 +233,8 @@ ggplot(year_2022, aes(x = year_2022, y = n)) +
                    labels = c("January", "December")) +
   theme(panel.background = element_rect(fill = "white"),
         axis.line = element_line(colour = "black"),
-        axis.title = element_text(face = "bold"))
+        axis.title = element_text(face = "bold"),
+        plot.margin = unit(c(1, 1, 1, 1), "cm"))
 
 
 
@@ -241,15 +244,17 @@ year_2023 <- separate_years %>%
   na.omit()
 
 #Visualisation of year 2023
-ggplot(year_2023, aes(x = year_2023, y = n)) +
-  geom_col(fill = "dodgerblue3") +
+plot_2023 <- ggplot(year_2023, aes(x = year_2023, y = n)) +
+  geom_col(fill = "dodgerblue1") +
   xlab("Sample Year 2023") +
   ylab("Number of sequences per day") +
   ylim(0 ,15000) +
   scale_x_discrete(breaks = c(as.Date("2023-01-01"), as.Date("2023-12-01")),
                    labels = c("January", "December")) +
   theme(panel.background = element_rect(fill = "white"),
-        axis.line = element_line(colour = "black"))
+        axis.line = element_line(colour = "black"),
+        axis.title = element_text(face = "bold"),
+        plot.margin = unit(c(1, 1, 1, 1), "cm"))
 
 
 
@@ -259,8 +264,8 @@ year_2024 <- separate_years %>%
   na.omit()
 
 #Visualisation of year 2024
-ggplot(year_2024, aes(x = year_2024, y = n)) +
-  geom_col(fill = "dodgerblue4") +
+plot_2024 <- ggplot(year_2024, aes(x = year_2024, y = n)) +
+  geom_col(fill = "dodgerblue") +
   xlab("Sample Year 2024") +
   ylab("Number of sequences per day") +
   ylim(0, 15000) +
@@ -268,11 +273,15 @@ ggplot(year_2024, aes(x = year_2024, y = n)) +
                    labels = c("January", "December")) +
   theme(panel.background = element_rect(fill = "white"),
         axis.line = element_line(colour = "black"),
-        axis.title = element_text(face = "bold"))
+        axis.title = element_text(face = "bold"),
+        plot.margin = unit(c(1, 1, 1, 1), "cm"))
 
 
+###### Combining all the figures ######
+part_2 <- plot_grid(plot_2020, plot_2021, plot_2022, plot_2023, plot_2024, nrow = 1, ncol = 5,
+                    labels = c("B", "C", "D", "E", "F"))
 
-
+plot_grid(main_plot, part_2, nrow = 2, labels = c("A"))
 
 
 
