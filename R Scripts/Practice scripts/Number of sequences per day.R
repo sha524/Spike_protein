@@ -25,7 +25,7 @@ library(dplyr)
 library(stringr)
 library(devtools)
 library(usethis)
-
+library(cowplot)
 
 ###### Number of sequences per day #####
 
