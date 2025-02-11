@@ -124,15 +124,20 @@ ggplot(actual_sequences_per_day, aes(x = Sample_date, y = n, colour = Sample_dat
   xlab("Sample date") +
   scale_x_continuous(breaks = c(as.Date("2020-01-01"), as.Date("2021-01-01"),
                                 as.Date("2022-01-01"), as.Date("2023-01-01"), as.Date("2024-01-01"),
-                                as.Date("2020-12-08")), labels = c("2020", "2021", "2022", "2023", "2024",
-                                                                  "Pfizer vaccine")) +
+                                as.Date("2020-12-08"), as.Date("2021-02-04"), as.Date("2021-04-07")),
+                     labels = c("2020", "2021", "2022", "2023", "2024", 
+                                "Pfizer", "AstraZeneca", "Moderna")) +
   theme(panel.background = element_rect(fill = "white"),
         axis.line = element_line(colour = "black"),
         legend.position = "none",
-        plot.margin = unit(c(2, 2, 2, 2), "cm")) +
+        plot.margin = unit(c(2, 2, 2, 2), "cm"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 0.5, size = 10),
+        axis.title.x = element_text(size = 15, face = "bold"),
+        axis.title.y = element_text(size = 15, face = "bold")) +
   labs(colour = "Sample date") +
   scale_fill_manual(name = "SARS-CoV-2 strain", 
                     values = c("red", "blue", "green", "yellow", "purple"))
+
 
 
 #Using a generalised linear model (gam)
@@ -177,14 +182,39 @@ separate_years <- actual_sequences_per_day %>%
 #year 2020
 year_2020 <- separate_years %>%
   select(year_2020, n) %>%
-  arrange(desc(n)) %>%
   na.omit()
+
+#Visualisation of year 2020
+ggplot(year_2020, aes(x = year_2020, y = n)) +
+  geom_col(fill = "dodgerblue") +
+  xlab("Sample Year 2020") +
+  ylab("Number of sequences per day") +
+  ylim(0, 15000) +
+  scale_x_discrete(breaks = c(as.Date("2020-01-01"), as.Date("2020-12-01")),
+                   labels = c("January", "December")) +
+  theme(panel.background = element_rect(fill = "white"),
+        axis.line = element_line(colour = "black"),
+        axis.title = element_text(face = "bold"))
   
+
 #year 2021
 year_2021 <- separate_years %>%
   select(year_2021, n) %>%
-  arrange(desc(n)) %>%
   na.omit()
+
+#Visualisation of year 2021
+ggplot(year_2021, aes(x = year_2021, y = n)) +
+  geom_col(fill = "dodgerblue1") +
+  xlab("Sample Year 2021") +
+  ylab("Number of sequences per day") +
+  ylim(0, 15000) +
+  scale_x_discrete(breaks = c(as.Date("2021-01-01"), as.Date("2021-12-01")),
+                   labels = c("January", "December")) +
+  theme(panel.background = element_rect(fill = "white"),
+        axis.line = element_line(colour = "black"),
+        axis.title = element_text(face = "bold"))
+
+
 
 #year 2022
 year_2022 <- separate_years %>%
@@ -192,17 +222,54 @@ year_2022 <- separate_years %>%
   arrange(desc(n)) %>%
   na.omit()
 
+#Visualisation of year 2022
+ggplot(year_2022, aes(x = year_2022, y = n)) +
+  geom_col(fill = "dodgerblue2") +
+  xlab("Sample Year 2022") +
+  ylab("Number of sequences per day") +
+  scale_x_discrete(breaks = c(as.Date("2022-01-01"), as.Date("2022-12-01")),
+                   labels = c("January", "December")) +
+  theme(panel.background = element_rect(fill = "white"),
+        axis.line = element_line(colour = "black"),
+        axis.title = element_text(face = "bold"))
+
+
+
 #year 2023
 year_2023 <- separate_years %>%
   select(year_2023, n) %>%
-  arrange(desc(n)) %>%
   na.omit()
 
-#year 2023
+#Visualisation of year 2023
+ggplot(year_2023, aes(x = year_2023, y = n)) +
+  geom_col(fill = "dodgerblue3") +
+  xlab("Sample Year 2023") +
+  ylab("Number of sequences per day") +
+  ylim(0 ,15000) +
+  scale_x_discrete(breaks = c(as.Date("2023-01-01"), as.Date("2023-12-01")),
+                   labels = c("January", "December")) +
+  theme(panel.background = element_rect(fill = "white"),
+        axis.line = element_line(colour = "black"))
+
+
+
+#year 2024
 year_2024 <- separate_years %>%
   select(year_2024, n) %>%
-  arrange(desc(n)) %>%
   na.omit()
+
+#Visualisation of year 2024
+ggplot(year_2024, aes(x = year_2024, y = n)) +
+  geom_col(fill = "dodgerblue4") +
+  xlab("Sample Year 2024") +
+  ylab("Number of sequences per day") +
+  ylim(0, 15000) +
+  scale_x_discrete(breaks = c(as.Date("2024-01-01"), as.Date("2024-12-01")),
+                   labels = c("January", "December")) +
+  theme(panel.background = element_rect(fill = "white"),
+        axis.line = element_line(colour = "black"),
+        axis.title = element_text(face = "bold"))
+
 
 
 
