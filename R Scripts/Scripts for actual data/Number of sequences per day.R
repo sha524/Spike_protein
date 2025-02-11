@@ -110,15 +110,15 @@ main_plot <- ggplot(actual_sequences_per_day, aes(x = Sample_date, y = n, colour
   geom_rect(aes(xmin = as.Date("2021-11-09"), xmax = as.Date("2024-12-29"),
                 ymin = 0, ymax = 16000, fill = "purple"), alpha = 0.003,
             colour = "green", linetype = "dashed") +
-  annotate("text", x = as.Date("2020-05-10"), y = 15810,
+  annotate("text", x = as.Date("2020-05-10"), y = 15500,
            label = expression(beta), size = 5, colour = "black",) +
-  annotate("text", x = as.Date("2020-09-18"), y = 15810,
+  annotate("text", x = as.Date("2020-09-18"), y = 15500,
            label = expression(alpha), size = 5, colour = "black") +
-  annotate("text", x = as.Date("2020-10-23"), y = 15810,
+  annotate("text", x = as.Date("2020-10-23"), y = 15500,
            label = expression(delta), size = 5, colour = "black") +
-  annotate("text", x = as.Date("2021-11-01"), y = 15810,
+  annotate("text", x = as.Date("2021-11-01"), y = 15500,
            label = expression(gamma), size = 5, colour = "black") +
-  annotate("text", x = as.Date("2024-12-20"), y = 15810,
+  annotate("text", x = as.Date("2024-12-20"), y = 15500,
            label = expression(omicron), size = 5, colour = "black") +
   ylab("Number of sequences per day") +
   xlab("Sample date") +
@@ -282,6 +282,7 @@ part_2 <- plot_grid(plot_2020, plot_2021, plot_2022, plot_2023, plot_2024, nrow 
                     labels = c("B", "C", "D", "E", "F"))
 
 plot_grid(main_plot, part_2, nrow = 2, labels = c("A"))
+
 
 
 
