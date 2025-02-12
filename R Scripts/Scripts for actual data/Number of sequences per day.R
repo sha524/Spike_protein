@@ -284,5 +284,3 @@ part_2 <- plot_grid(plot_2020, plot_2021, plot_2022, plot_2023, plot_2024, nrow 
 plot_grid(main_plot, part_2, nrow = 2, labels = c("A"))
 
 
-
-
