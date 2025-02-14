@@ -6,6 +6,8 @@
 
 ###### What does this R script contain #####
 
+#Most common mutations
+
 #Going to use the pivot_wider() function
 
 #Transforming data from long format to wide format data, by spreading
@@ -32,11 +34,33 @@ Sequence_Mutation_columns <- UK_sequences_df %>%
 Mutations_split <- Sequence_Mutation_columns %>%
   separate_longer_delim(Mutations, delim = "|")
 
-#Most common mutations
+
+
+###### Most common mutations #####
 most_common_mutations_UK <- Mutations_split %>%
   count(Mutations) %>%
   arrange(desc(n)) %>%
-  head(10)
+  head(20) %>%
+  mutate(non_vs_syn = str_extract(Mutations, pattern = "non")) %>%
+  mutate(non_vs_syn = ifelse(is.na(non_vs_syn), "syn", "non"))
+
+
+#Visualisation of the most common mutations
+ggplot(most_common_mutations_UK, aes(x = Mutations, y = n, fill = non_vs_syn)) +
+  geom_col() +
+  xlab("Mutations") +
+  ylab("Frequency") +
+  scale_fill_manual(breaks = non_vs_syn,)
+  theme(panel.background = element_rect(fill = "white"),
+        axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 0.5, size = 8),
+        axis.title = element_text(size = 12, face = "bold"))
+
+
+
+
+
+###### pivot_wider() #####
 
 #Joining the two tables together
 #semi_join() filters for observations that match the second table
@@ -44,8 +68,6 @@ most_common_mutations_UK <- Mutations_split %>%
 combined_data <- Mutations_split %>%
   semi_join(most_common_mutations_UK, by = "Mutations")
   
-
-###### pivot_wider() #####
 
 #Using pivot_wider() to transform the data from long format to wide format
 wide_data_UK <- combined_data %>%
