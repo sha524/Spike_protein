@@ -53,9 +53,10 @@ ggplot(most_common_mutations_UK, aes(x = Mutations, y = n, fill = non_vs_syn)) +
   scale_fill_manual(values = c(non = "blue", syn = "red")) +
   theme(panel.background = element_rect(fill = "white"),
         axis.line = element_line(colour = "black"),
-        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 0.5, size = 8),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 0.5, size = 12),
         axis.title = element_text(size = 20, face = "bold"),
-        legend.position = "none")
+        legend.position = "none",
+        panel.spacing = unit(c(2, 2, 2, 2), "cm"))
 
 
 
