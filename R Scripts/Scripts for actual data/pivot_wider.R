@@ -50,11 +50,12 @@ ggplot(most_common_mutations_UK, aes(x = Mutations, y = n, fill = non_vs_syn)) +
   geom_col() +
   xlab("Mutations") +
   ylab("Frequency") +
-  scale_fill_manual(breaks = non_vs_syn,)
+  scale_fill_manual(values = c(non = "blue", syn = "red")) +
   theme(panel.background = element_rect(fill = "white"),
         axis.line = element_line(colour = "black"),
         axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 0.5, size = 8),
-        axis.title = element_text(size = 12, face = "bold"))
+        axis.title = element_text(size = 20, face = "bold"),
+        legend.position = "none")
 
 
 
