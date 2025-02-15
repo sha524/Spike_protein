@@ -146,7 +146,6 @@ main_plot <- ggplot(actual_sequences_per_day, aes(x = Sample_date, y = n, colour
 #Regression looks at the relationship between two variables
 
 
-
 ###### More in-depth analysis of the number of sequences per day ######
 
 #What day had the most sequences?
