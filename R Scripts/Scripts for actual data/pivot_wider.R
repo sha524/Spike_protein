@@ -80,7 +80,7 @@ wide_data_UK <- combined_data %>%
 #Need to change all the values where the mutation is present to 1's
 no_na_UK <- wide_data_UK %>%
   select(-Sequence_Information) %>%
-  mutate(across(everything(), ~ ifelse(is.na(.), "0", "1")))
+  mutate(across(everything(), ~ ifelse(is.na(.), 0, 1)))
 
 #Going to recombine with the Sequence_Information column
 #Selecting the sequence information column to then recombine with the mutation data
@@ -92,6 +92,7 @@ sequence_information_column_2 <- wide_data_UK %>%
 #vectorised the data. 1's represent where the mutation is present
 #0's represent where the data is not present
 completed_wide_data_UK <- data.frame(c(sequence_information_column_2, no_na_UK))
+
 
 
 
