@@ -140,7 +140,7 @@ main_plot <- ggplot(actual_sequences_per_day, aes(x = Sample_date, y = n, colour
 
 
 
-#Using a generalised linear model (gam)
+#Using a generalised additive model (gam)
 #A type of regression model for non-linear relationships
 #between predictor variables and their response variables
 #Regression looks at the relationship between two variables

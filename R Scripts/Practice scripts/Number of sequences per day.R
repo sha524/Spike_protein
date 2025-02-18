@@ -26,6 +26,7 @@ library(stringr)
 library(devtools)
 library(usethis)
 library(cowplot)
+library(mgcv)
 
 ###### Number of sequences per day #####
 

@@ -38,9 +38,16 @@ model <- lm(Number_of_Mutations ~ Sample_Date, data = practice_spike_df)
 #Therefore, the predictor variable is statistically significant
 #Sample date has an effect on the number of mutations
 
+
+#Currently crashing out
+#Going to limit the number of values
+num_mutations_time <- UK_sequences_df %>%
+  tail(10000)
+  
 #Number of mutations over time for the main data set
 ggplot(UK_sequences_df, aes(x = Sample_date, y = Number_of_mutations)) +
-  geom_point()
+  geom_smooth()
 
-
+linear_UK <- lm(Number_of_mutations ~ Sample_date, data = UK_sequences_df)
+gam_UK <- gam(Number_of_mutations ~ Sample_date, data = UK_sequences_df)
 
