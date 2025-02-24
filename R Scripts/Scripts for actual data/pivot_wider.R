@@ -95,9 +95,18 @@ completed_wide_data_UK <- data.frame(c(sequence_information_column_2, no_na_UK))
 
 
 
+###### wide data for clustering analysis #####
 
+#Going to select just the mutations column
+#Only contains the unique individual mutations
+mutations_column <- Mutations_split %>%
+  count(Mutations) %>%
+  select(Mutations)
 
-
+#Going to join the data using semi_join()
+full_join_data <- mutations_column %>%
+  full_join(Mutations_split, by = "Mutations") %>%
+  relocate(Mutations, .after = Sequence_Information)
 
 
 
