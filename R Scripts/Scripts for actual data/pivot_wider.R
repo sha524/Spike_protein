@@ -103,7 +103,7 @@ mutations_column <- Mutations_split %>%
   count(Mutations) %>%
   select(Mutations)
 
-#Going to join the data using semi_join()
+#Going to join the data using full_join()
 full_join_data <- mutations_column %>%
   full_join(Mutations_split, by = "Mutations") %>%
   relocate(Mutations, .after = Sequence_Information)
