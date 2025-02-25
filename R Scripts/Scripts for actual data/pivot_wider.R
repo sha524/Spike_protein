@@ -99,17 +99,22 @@ completed_wide_data_UK <- data.frame(c(sequence_information_column_2, no_na_UK))
 
 #Going to select just the mutations column
 #Only contains the unique individual mutations
-mutations_column <- Mutations_split %>%
-  count(Mutations) %>%
-  select(Mutations)
+ten_thousand <- UK_sequences_df %>%
+  select(Sequence_Information, Mutations) %>%
+  head(50000) %>%
+  separate_longer_delim(Mutations, delim = "|") %>%
+  pivot_wider(names_from = "Mutations", values_from = "Mutations")
 
-#Going to join the data using full_join()
-full_join_data <- mutations_column %>%
-  full_join(Mutations_split, by = "Mutations") %>%
-  relocate(Mutations, .after = Sequence_Information)
-
-
-
+# #Going to join the data using full_join()
+# full_join_data <- mutations_column %>%
+#   full_join(Mutations_split, by = "Mutations") %>%
+#   relocate(Mutations, .after = Sequence_Information) %>%
+#   pivot_wider(names_from = "Mutations", values_from = "Mutations")
+# 
+# 
+# pivot_wide_data <- Mutations_split %>%
+#   head(1000000) %>%
+#   pivot_wider(names_from = "Mutations", values_from = "Mutations")
 
 
 
