@@ -17,18 +17,34 @@
 
 #Using the UK_sequences_df
 
-
-
+#Adding an extra column to practice_spike_df
+#to separate the sequences by year
+practice_spike_df <- practice_spike_df %>%
+  mutate(year = year(as.Date(Sample_Date)))
+  
+  
+#Adding a new column to the UK_sequences_df
+UK_sequences_df <- UK_sequences_df %>%
+  mutate(year = year(as.Date(Sample_date))) %>%
+  na.omit()
+  
 
 
 ###### Plotting the number of mutations over time #####
 
-#Going to try and plot the practice data setv first
+#Going to try and plot the practice data set first
 #The number of mutations over time
 #practice_spike_df
-ggplot(practice_spike_df, aes(x = Sample_Date, y = Number_of_Mutations)) +
+ggplot(practice_spike_df, aes(x = Sample_Date, y = Number_of_Mutations, colour = year)) +
   geom_point() +
-  geom_smooth(method = "lm", se = FALSE)
+  facet_wrap(~ year)
+
+UK_sequences_df %>%
+  sample_n(1000) %>%
+  ggplot(aes(x = Sample_date, y = Number_of_mutations, fill = year)) +
+  geom_point()
+
+
 
 #Using a linear model here
 #Need to check the assumptions
