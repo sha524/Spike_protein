@@ -25,11 +25,11 @@
 
 #Will first take a random sample just to test
 UK_sequences_df %>%
-#Taking a random sample of 1000 values
-#sample_n(5000) %>%
+#Taking a random sample of 5000 values
+# sample_n(5000) %>%
   select(Sequence_Information, Mutations, Sample_date, year) %>%
   separate_longer_delim(Mutations, delim = "|") %>%
-#distinct() function used to keep on the first time a unique
+#distinct() function used to keep the first time a unique
 #mutations appeared
   distinct(Mutations, .keep_all = TRUE) %>%
   group_by(Sample_date, year) %>%
@@ -43,7 +43,10 @@ UK_sequences_df %>%
                                   "2022-01-01", "2023-01-01", "2024-01-01")),
                      labels = c("2020", "2021", "2022", "2023", "2024")) +
   theme(panel.background = element_rect(fill = "white"),
-        axis.line = element_line(colour = "black")) +
+        axis.line = element_line(colour = "black"),
+        axis.title = element_text(size = 14, face = "bold"),
+        axis.title.x = element_text(margin = margin(t = 10)),
+        axis.title.y = element_text(margin = margin(r = 10))) +
   scale_colour_manual(name = "year",
                     values = c("2020" = "red",
                                "2021" = "blue",
@@ -53,9 +56,20 @@ UK_sequences_df %>%
   
 
 
-###### Visualisation ######
-ggplot(test, aes(x = Sample_date, y = year)) +
-  geom_point()
+###### Novel mutations ######
+
+#How many unique muatations are there?
+unique_mutations <- UK_sequences_df %>%
+  select(Mutations) %>%
+#Separating the mutations by |
+  separate_longer_delim(Mutations, delim = "|") %>%
+#Removing duplicates
+  distinct(Mutations) %>%
+#Using count and arrange to ensure there are no repeats
+  count(Mutations) %>%
+  arrange(desc(n))
+ 
+
 
 
 
