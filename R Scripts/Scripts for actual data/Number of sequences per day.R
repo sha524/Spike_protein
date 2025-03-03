@@ -280,6 +280,7 @@ plot_2024 <- ggplot(year_2024, aes(x = year_2024, y = n)) +
 part_2 <- plot_grid(plot_2020, plot_2021, plot_2022, plot_2023, plot_2024, nrow = 1, ncol = 5,
                     labels = c("B", "C", "D", "E", "F"))
 
-plot_grid(main_plot, part_2, nrow = 2, labels = c("A"))
+plot_grid(main_plot, part_2, nrow = 2, labels = c("A"),
+          caption )
 
 
