@@ -49,12 +49,17 @@ UK_sequences_df %>%
   # sample_n(5000) %>%
   ggplot(aes(x = as.factor(year), y = Number_of_mutations, fill = as.factor(year))) +
   geom_violin() +
+  stat_summary(fun = median, show.legend = FALSE, geom = "crossbar", width = 1.2,
+               linewidth = 0.3) +
   # geom_jitter(size = 0.3, alpha = 0.1) +
   ylab("Number of mutations") +
   xlab("Year") +
   scale_fill_manual(values = c("2020" = "grey", "2021" = "blue",
                                "2022" = "red", "2023" = "green",
                                "2024" = "purple")) +
+  # scale_colour_manual(values = c("2020" = "grey", "2021" = "blue",
+  #                                "2022" = "red", "2023" = "green",
+  #                                "2024" = "purple")) +
   theme(panel.background = element_rect(fill = "white"),
         axis.line = element_line(colour = "black"),
         axis.title = element_text(face = "bold", size = 15),
@@ -62,7 +67,13 @@ UK_sequences_df %>%
         axis.title.y = element_text(margin = margin(r = 10)),
         legend.position = "none")
 
-###Need to add quantiles to the graph
+
+#Box plot by year
+UK_sequences_df %>%
+  # sample_n(10000) %>%
+  ggplot(aes(x = as.factor(year), y = Number_of_mutations, fill = as.factor(year))) +
+  geom_boxplot(outlier.alpha = 0.5, coef = 0)
+
 
 
 
