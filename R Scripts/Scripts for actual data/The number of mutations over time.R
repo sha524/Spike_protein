@@ -41,8 +41,30 @@ ggplot(practice_spike_df, aes(x = Sample_Date, y = Number_of_Mutations, colour =
 
 UK_sequences_df %>%
   sample_n(1000) %>%
-  ggplot(aes(x = Sample_date, y = Number_of_mutations, colour = year)) +
-  geom_point()
+  ggplot(aes(x = as.Date(Sample_date), y = Number_of_mutations, colour = year)) +
+  geom_point(alpha = 0.7)
+
+#Violin plot by year
+UK_sequences_df %>%
+  # sample_n(5000) %>%
+  ggplot(aes(x = as.factor(year), y = Number_of_mutations, fill = as.factor(year))) +
+  geom_violin() +
+  # geom_jitter(size = 0.3, alpha = 0.1) +
+  ylab("Number of mutations") +
+  xlab("Year") +
+  scale_fill_manual(values = c("2020" = "grey", "2021" = "blue",
+                               "2022" = "red", "2023" = "green",
+                               "2024" = "purple")) +
+  theme(panel.background = element_rect(fill = "white"),
+        axis.line = element_line(colour = "black"),
+        axis.title = element_text(face = "bold", size = 15),
+        axis.title.x = element_text(margin = margin(t = 10)),
+        axis.title.y = element_text(margin = margin(r = 10)),
+        legend.position = "none")
+
+###Need to add quantiles to the graph
+
+
 
 
 
@@ -66,9 +88,9 @@ model <- lm(Number_of_Mutations ~ Sample_Date, data = practice_spike_df)
 
   
 #Number of mutations over time for the main data set
-ggplot(UK_sequences_df, aes(x = Sample_date, y = Number_of_mutations)) +
-  geom_smooth()
-
-linear_UK <- lm(Number_of_mutations ~ Sample_date, data = UK_sequences_df)
-gam_UK <- gam(Number_of_mutations ~ Sample_date, data = UK_sequences_df)
+# ggplot(UK_sequences_df, aes(x = Sample_date, y = Number_of_mutations)) +
+#   geom_smooth()
+# 
+# linear_UK <- lm(Number_of_mutations ~ Sample_date, data = UK_sequences_df)
+# gam_UK <- gam(Number_of_mutations ~ Sample_date, data = UK_sequences_df)
 
