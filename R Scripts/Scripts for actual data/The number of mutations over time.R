@@ -49,8 +49,8 @@ UK_sequences_df %>%
   # sample_n(5000) %>%
   ggplot(aes(x = as.factor(year), y = Number_of_mutations, fill = as.factor(year))) +
   geom_violin() +
-  stat_summary(fun = median, show.legend = FALSE, geom = "crossbar", width = 1.2,
-               linewidth = 0.3) +
+  stat_summary(fun = median, show.legend = FALSE, geom = "crossbar", width = 1,
+               linewidth = 0.45) +
   # geom_jitter(size = 0.3, alpha = 0.1) +
   ylab("Number of mutations") +
   xlab("Year") +
@@ -62,10 +62,12 @@ UK_sequences_df %>%
   #                                "2024" = "purple")) +
   theme(panel.background = element_rect(fill = "white"),
         axis.line = element_line(colour = "black"),
-        axis.title = element_text(face = "bold", size = 15),
+        axis.title = element_text(face = "bold", size = 20),
         axis.title.x = element_text(margin = margin(t = 10)),
         axis.title.y = element_text(margin = margin(r = 10)),
-        legend.position = "none")
+        legend.position = "none",
+        axis.text = element_text(size = 15))
+
 
 
 #Box plot by year
@@ -75,6 +77,57 @@ UK_sequences_df %>%
   geom_boxplot(outlier.alpha = 0.5, coef = 0)
 
 
+
+
+###### Statistics #####
+
+#Summarising the data set
+summary_mutations_UK <- UK_sequences_df %>%
+  group_by(year) %>%
+  summarise(mean_mutations = mean(Number_of_mutations),
+            median_mutations = median(Number_of_mutations),
+            max_mutations = max(Number_of_mutations),
+            min_mutations = min(Number_of_mutations))
+
+
+#Question:    Does the number of mutations
+#             per sequence increase with each year?
+
+
+#Hypothesis testing:    H0: Mean number of mutations per sequence is the same
+#                       H1: Mean number of mutations per sequence is not the same
+                      
+
+
+#Using a pearson product-moment correlation to test for correlation
+UK_sequences_df %>%
+  summarise(correlation = cor(Number_of_mutations, year))
+#0.9401707, strong positive correlation between the number of mutations per sequence
+#and the year
+
+#ANOVA model
+#Does 
+#Going to use an one-way ANOVA test
+UK_sequences_df %>%
+  select(Number_of_mutations, year) %>%
+  aov(Number_of_mutations ~ year, data = .) %>%
+  summary()
+#Reporting the result
+#There was a significant effect of the year on the number of mutations per sequence
+#(ANOVA: F = 14814646; d.f. = 1, 1945633, p = 2e-16)
+
+#Checking the assumptions
+#Testing for normality
+hist(mod_mutations$residuals)
+shapiro.test(sample(residuals(mod_mutations), 5000))
+#Having to take a random sample of 5000 values, as
+#shapiro-wilks test has a p-value of 2e-16 < 0.05
+#residuals are not normally distributed
+plot(mod_mutations, which = 1)
+
+UK_sequences_df %>%
+  ggplot(aes(x = as.factor(year), y = Number_of_mutations)) +
+  geom_point()
 
 
 
