@@ -13,6 +13,9 @@
 #Transforming data from long format to wide format data, by spreading
 #the values across multiple columns
 
+#Two options:
+#First 1000000 sequences after separation
+#1000 most common mutations
 
 
 ###### Setup #####
@@ -64,6 +67,8 @@ ggplot(most_common_mutations_UK, aes(x = Mutations, y = n, fill = non_vs_syn)) +
 
 ###### pivot_wider() #####
 
+#Using the 20 most common mutations for the wide data
+
 #Joining the two tables together
 #semi_join() filters for observations that match the second table
 #Removing all the 
@@ -97,31 +102,48 @@ completed_wide_data_UK <- data.frame(c(sequence_information_column_2, no_na_UK))
 
 ###### wide data for clustering analysis #####
 
+#Two options:
+#Use as many sequences as possible
+#1000 most common mutations
+
 #Going to select just the mutations column
 #Only contains the unique individual mutations
+#The first 10000 sequences
 ten_thousand <- UK_sequences_df %>%
   select(Sequence_Information, Mutations) %>%
-  head(50000) %>%
+  head(10000) %>%
   separate_longer_delim(Mutations, delim = "|") %>%
   pivot_wider(names_from = "Mutations", values_from = "Mutations")
 
-# #Going to join the data using full_join()
-# full_join_data <- mutations_column %>%
-#   full_join(Mutations_split, by = "Mutations") %>%
-#   relocate(Mutations, .after = Sequence_Information) %>%
-#   pivot_wider(names_from = "Mutations", values_from = "Mutations")
-# 
-# 
-# pivot_wide_data <- Mutations_split %>%
-#   head(1000000) %>%
-#   pivot_wider(names_from = "Mutations", values_from = "Mutations")
+#First 1000000 sequences after separation
+wide_data <- UK_sequences_df %>%
+  select(Sequence_Information, Mutations) %>%
+  separate_longer_delim(Mutations, delim = "|") %>%
+  head(1000000) %>%
+  pivot_wider(names_from = "Mutations", values_from = "Mutations")
 
 
+#1000 most common mutations
+#Selecting the 1000 most common mutations
+more_common_mutations <- Mutations_split %>%
+  count(Mutations) %>%
+  arrange(desc(n)) %>%
+  head(1000) %>%
+  select(Mutations)
 
+#Combining the two tables
+#Mutations_split and more_common_mutations
+combined <- Mutations_split %>%
+  semi_join(more_common_mutations, by = "Mutations")
 
-
-
-
+#Wide data
+wide_combined <- combined %>%
+  pivot_wider(names_from = "Mutations", values_from = "Mutations") %>%
+#Changing the values
+#All the NA's to 0's
+#All the places where mutations are present to 1's
+  mutate(across(-Sequence_Information, ~ ifelse(is.na(.), 0, 1)))
+  
 
 
 
