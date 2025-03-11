@@ -66,20 +66,22 @@ UK_sequences_df %>%
         axis.title.x = element_text(margin = margin(t = 10)),
         axis.title.y = element_text(margin = margin(r = 10)),
         legend.position = "none",
-        axis.text = element_text(size = 15))
+        axis.text = element_text(size = 12))
 
 
 
-#Box plot by year
-UK_sequences_df %>%
-  # sample_n(10000) %>%
-  ggplot(aes(x = as.factor(year), y = Number_of_mutations, fill = as.factor(year))) +
-  geom_boxplot(outlier.alpha = 0.5, coef = 0)
+# #Box plot by year
+# UK_sequences_df %>%
+#   # sample_n(10000) %>%
+#   ggplot(aes(x = as.factor(year), y = Number_of_mutations, fill = as.factor(year))) +
+#   geom_boxplot(outlier.alpha = 0.5, coef = 0)
 
 
 
 
 ###### Statistics #####
+
+#Going to use a significance level of 0.05
 
 #Summarising the data set
 summary_mutations_UK <- UK_sequences_df %>%
@@ -87,17 +89,29 @@ summary_mutations_UK <- UK_sequences_df %>%
   summarise(mean_mutations = mean(Number_of_mutations),
             median_mutations = median(Number_of_mutations),
             max_mutations = max(Number_of_mutations),
-            min_mutations = min(Number_of_mutations))
+            min_mutations = min(Number_of_mutations),
+            var_mutations = var(Number_of_mutations))
+
+#Plotting the median values
+ggplot(summary_mutations_UK, aes(x = year, y = median_mutations)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+
 
 
 #Question:    Does the number of mutations
 #             per sequence increase with each year?
 
 
-#Hypothesis testing:    H0: Mean number of mutations per sequence is the same
-#                       H1: Mean number of mutations per sequence is not the same
+#Hypothesis testing:    H0: Mean number of mutations per sequence over time is the same
+#(ANOVA)                H1: Mean number of mutations per sequence is not the same
                       
+#Hypothesis testing:    H0: Median number of mutations per sequence over time is the same
+#(Kruskal-Wallis)       H1: Median number of mutations per sequence over time is not the same 
 
+
+#Answer: Can reject the H0 hypothesis, the median number of mutations over time
+#is not the same
 
 #Using a pearson product-moment correlation to test for correlation
 UK_sequences_df %>%
@@ -105,16 +119,18 @@ UK_sequences_df %>%
 #0.9401707, strong positive correlation between the number of mutations per sequence
 #and the year
 
-#ANOVA model
+### ANOVA model ###
 #Does 
 #Going to use an one-way ANOVA test
-UK_sequences_df %>%
+mod_mutations <- UK_sequences_df %>%
   select(Number_of_mutations, year) %>%
-  aov(Number_of_mutations ~ year, data = .) %>%
-  summary()
-#Reporting the result
+  arrange(year) %>%
+  mutate(year = as.factor(year)) %>%
+  aov(Number_of_mutations ~ year, data = .)
+summary(mod_mutations)
+#Reporting the result:
 #There was a significant effect of the year on the number of mutations per sequence
-#(ANOVA: F = 14814646; d.f. = 1, 1945633, p = 2e-16)
+#(ANOVA: F = 9451290; d.f. = 4, p = 2e-16)
 
 #Checking the assumptions
 #Testing for normality
@@ -125,11 +141,32 @@ shapiro.test(sample(residuals(mod_mutations), 5000))
 #residuals are not normally distributed
 plot(mod_mutations, which = 1)
 
-UK_sequences_df %>%
-  ggplot(aes(x = as.factor(year), y = Number_of_mutations)) +
-  geom_point()
+#An ANOVA test is not the correct statistical test to use here
+#This is because the data does not follow a normal distribution
 
 
+### Kruskal Wallis test ###
+kruskal_mod <- UK_sequences_df %>%
+  select(Number_of_mutations, year) %>%
+  arrange(year) %>%
+  mutate(year = as.factor(year))
+kruskal.test(kruskal_mod$Number_of_mutations ~ kruskal_mod$year)
+#Reporting the the results:
+#There was a significant difference in the number of mutations per sequence
+#compared to each year (Kruskal-Wallis: χ2 = 1558575, d.f. = 4, p = 2.2e-16)
+
+
+#Need to work out which years actually differ
+#Post-hoc test needed, kruskalmc()
+kruskalmc(kruskal_mod$Number_of_mutations, kruskal_mod$year, probs = 0.05)
+#Post-hoc analysis showed that the number of mutations per sequence,
+#is significantly different between each year
+
+
+
+
+
+###### Statistics (Regression Modelling) #####
 
 
 #Using a linear model here
