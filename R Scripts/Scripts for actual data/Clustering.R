@@ -23,7 +23,8 @@
 
 #Will take a sample of wide_combined to ensure the algorithm works
 sample_wide_combined <- wide_combined %>%
-  sample_n(100)
+  sample_n(100) %>%
+  na.omit()
 
 
 ###### Selecting the number of clusters #####
