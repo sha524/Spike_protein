@@ -46,7 +46,8 @@ UK_sequences_df %>%
         axis.line = element_line(colour = "black"),
         axis.title = element_text(size = 14, face = "bold"),
         axis.title.x = element_text(margin = margin(t = 10)),
-        axis.title.y = element_text(margin = margin(r = 10))) +
+        axis.title.y = element_text(margin = margin(r = 10)),
+        legend.position = "none") +
   scale_colour_manual(name = "year",
                     values = c("2020" = "red",
                                "2021" = "blue",
@@ -58,7 +59,7 @@ UK_sequences_df %>%
 
 ###### Novel mutations ######
 
-#How many unique muatations are there?
+#How many unique mutations are there?
 unique_mutations <- UK_sequences_df %>%
   select(Mutations) %>%
 #Separating the mutations by |
@@ -68,7 +69,38 @@ unique_mutations <- UK_sequences_df %>%
 #Using count and arrange to ensure there are no repeats
   count(Mutations) %>%
   arrange(desc(n))
- 
+
+
+#What date had the most number of novel mutations?
+#2021-12-11
+
+#First created a data frame to work from
+#novel_mutations contains the sample date and the number of novel mutations for that day
+novel_mutations <- UK_sequences_df %>%
+  select(Mutations, Sample_date, year) %>%
+  separate_longer_delim(Mutations, delim = "|") %>%
+  distinct(Mutations, .keep_all = TRUE) %>%
+  group_by(Sample_date, year) %>%
+  summarise(count = n()) %>%
+  arrange(desc(count))
+
+
+#Mean and median number of novel mutations for a day
+summary_novel_mutations <- novel_mutations %>%
+  ungroup() %>%
+  select(count) %>%
+  summarise(mean = mean(count),
+            median = median(count))
+#Large discrepancies between the mean and median values
+
+#Mean and median number of novel mutations for each year
+summary_year_novel <- novel_mutations %>%
+  group_by(year) %>%
+  summarise(mean = mean(count),
+            median = median(count))
+#Large discrepancies between the mean and median values
+
+
 
 
 

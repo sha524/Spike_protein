@@ -113,11 +113,14 @@ ggplot(summary_mutations_UK, aes(x = year, y = median_mutations)) +
 #Answer: Can reject the H0 hypothesis, the median number of mutations over time
 #is not the same
 
-#Using a pearson product-moment correlation to test for correlation
+#Using a Spearman's rank correlation to test for correlation
+#The data is not normally distributed
 UK_sequences_df %>%
-  summarise(correlation = cor(Number_of_mutations, year))
-#0.9401707, strong positive correlation between the number of mutations per sequence
-#and the year
+  select(Number_of_mutations, year) %>%
+  arrange(year) %>%
+  summarise(correlation = cor(year, Number_of_mutations, method = "spearman"))
+#correlation value of 0.895 
+
 
 ### ANOVA model ###
 #Does 
