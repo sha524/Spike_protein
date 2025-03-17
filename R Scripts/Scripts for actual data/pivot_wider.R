@@ -4,7 +4,7 @@
 #UK_seqs_msa_0522_spike_mutations.txt
 
 
-###### What does this R script contain #####
+##### What does this R script contain #####
 
 #Most common mutations
 
@@ -13,6 +13,7 @@
 #Transforming data from long format to wide format data, by spreading
 #the values across multiple columns
 
+#Creating wide data for clustering
 #Two options:
 #First 1000000 sequences after separation
 #1000 most common mutations
@@ -135,6 +136,10 @@ more_common_mutations <- Mutations_split %>%
 
 #Combining the two tables
 #Mutations_split and more_common_mutations
+#combined data frame contains only the 1000 most common mutations
+#and the sequence information associated with them
+#Removed any mutations that were not in the 1000 most common mutations
+#Removed any sequences that did not have any of the 1000 most common mutations
 combined <- Mutations_split %>%
   semi_join(more_common_mutations, by = "Mutations")
 

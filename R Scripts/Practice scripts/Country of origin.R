@@ -5,12 +5,10 @@
 
 ###### What does this R script contain ######
 
-#Going to try and extract the country of origin for the sequences
+#Extracting the country of origin from the sequence information
 
 
-
-
-###### Data setup ######]
+###### Data setup ######
 
 #First 100 sequences
 practice_sequences <- UK_sequences_df %>%
