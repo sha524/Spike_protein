@@ -23,7 +23,10 @@ R was used for the majority of the analysis
 
 git lfs was used for storage of large files
 
-packages used:
+[Moorhen](https://github.com/moorhen-coot/Moorhen) is a molecular graphics software used to produce protein structures in the report
+
+
+R packages used:
 - ggplot2
 - Rmisc
 - tidyverse
@@ -65,11 +68,18 @@ Data structure names ➡️ Names of the important data structures alongwith a d
 
 #### **Report**
 
-The report for the analysis
+Word document used for the analysis
 
 #### **Research Project**
 
 R project used for general organisation and management
+
+
+## How to use this Research Compendium
+
+- Open Research Project
+
+- Each R script outlines what that script contains, provides information on the analysis performed and how the figures were generated
 
 
 
