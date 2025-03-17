@@ -45,7 +45,7 @@ R packages used:
 
 ## The files
 
-What does each file contain❔
+**What does each file contain**❔
 
 #### **data**
 UK_seqs_msa_0522_spike_mutations.txt ➡️ Complete sequence data with unique identifier and mutation information
@@ -60,7 +60,7 @@ Real plots and figures ➡️ Figures for the report
 
 #### **R scripts**
 
-Practice scripts ➡️ Scripts for testing analysis before implementing on the actual data
+Practice scripts ➡️ Scripts for testing analysis before implementing on the actual data. I have kept a lot of the code, most of it is commented out, this was to allow an outside user to see how any problems were overcome
 
 Scripts for actual data ➡️ Scripts where the analysis for the report was performed
 
@@ -79,8 +79,15 @@ R project used for general organisation and management
 
 - Open Research Project
 
+- First open "Number of sequences per day.R" script from the practice scripts folder, this contains all the packages used for the analysis
+
 - Each R script outlines what that script contains, provides information on the analysis performed and how the figures were generated
 
+Recommended order to look at Scripts for actual data
+
+1. Number of sequences per day.R
+2. Number of mutations over time.R
+3. Number of unique mutations over time.R
 
 
 
