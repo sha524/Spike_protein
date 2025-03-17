@@ -4,7 +4,7 @@
 
 ###### What does this R script contain ######
 
-#Table of sequence information and mutations
+#Creating the data frame of sequence information and mutations
 
 #Counting the number of mutations per sequence
 
@@ -17,12 +17,6 @@
 #Data used old_UK_seqs_msa_0522_spike_mutations
 
 #Plotting the number of sequences per day (First 100 sequences)
-
-
-
-
-### Information about the data ###
-#This data is for mutations of the spike protein only
 
 
 ###### Set up ######
@@ -50,7 +44,13 @@ spike_mutation_data <- read.table("./data/old_UK_seqs_msa_0522_spike_mutations.t
 #  x[seq(1, nrow(x), by = 2)]
 # }
 
-###### Odd rows ######
+##### Odd and even rows #####
+#spike_mutation_data table has the sequence information in the odd rows
+#and the mutation information in the even rows
+#A way to separate them is to index the rows to whether they are odd or even
+
+
+##### Odd rows #####
 
 #Index the odd rows
 row_odd <- seq_len(nrow(spike_mutation_data)) %% 2
@@ -66,21 +66,14 @@ data_row_odd <- spike_mutation_data[row_odd == 1, ]
 #The odd rows are all the sequence information
 
 
-###### Even rows ######
+##### Even rows #####
 row_even <- seq_len(nrow(spike_mutation_data)) %% 2
 data_row_even <- spike_mutation_data[row_even == 0, ]
 #The even rows are the mutations for each sequence
 
 
-##### Number of mutations #####
-spike_df$num_mutations <- str_count(spike_df$Mutations, "\\|") + 1
-#\\| used to split the mutation data up
-#The backslash is used as \ and | are special characters in regular expressions
-#Want | to be taken literally
 
-
-
-###### Table of sequence information and mutations ######
+##### Table of sequence information and mutations #####
 
 #Creating a data frame
 spike_df <- data.frame(data_row_odd, data_row_even)
@@ -90,7 +83,14 @@ colnames(spike_df)[1] <- "Sequence_Information"
 colnames(spike_df)[2] <- "Mutations"
 
 
-###### Extracting the date  ######
+##### Number of mutations #####
+spike_df$num_mutations <- str_count(spike_df$Mutations, "\\|") + 1
+#\\| used to split the mutation data up
+#The backslash is used as \ and | are special characters in regular expressions
+#Want | to be taken literally
+
+
+##### Extracting the date  #####
 
 #Using the str_extract function from the stringr package to extract the sample date
 #"[0-9]{4}-[0-9]{2}-[0-9]{2}", a regular expression, a sequence of characters that define
@@ -99,7 +99,7 @@ colnames(spike_df)[2] <- "Mutations"
 spike_df$dates <- str_extract(spike_df$Sequence_Information, "[0-9]{4}-[0-9]{2}-[0-9]{2}")
 colnames(spike_df)[3] <- "Sample_Date"
 
-###### Number of sequences per day ######
+##### Number of sequences per day #####
 
 #Need to check that the sample date is in the correct format
 spike_df$Sample_Date <- as.Date(spike_df$Sample_Date)
@@ -126,7 +126,7 @@ ggplot(sequences_per_day2, aes(x = Sample_Date, y = num_sequences, colour = Samp
 #2020-01-29 only has 1 sequence on that day
 
 
-###### Number of mutations per sequence ######
+##### Number of mutations per sequence #####
 
 #Number of mutations per sequence was counted earlier
 #Now need to make a plot of the number of mutations per sequence
@@ -136,7 +136,7 @@ ggplot(sequences_per_day2, aes(x = Sample_Date, y = num_sequences, colour = Samp
 
 
 
-###### Number of sequences per day for the first 100 sequences ######
+##### Number of sequences per day for the first 100 sequences #####
 
 #Going to use the practice_spike_df data
 view(practice_spike_df)
