@@ -1,15 +1,17 @@
+################ Research Project ################
+
 #Going to the use the practice data
 #Only the first 100 sequences
 
 
-###### What does this R script contain ######
+##### What does this R script contain #####
 
 #Attemping to get the data in pivot_wider format, wide data
 
 
 
 
-###### Data Manipulation ######
+##### Data Manipulation #####
 
 #Going to select just the Sequence Information and Mutations columns
 #Will just be easier to work with
@@ -22,12 +24,13 @@ view()
 #Using the separate_longer_delim() function to split the mutations by |
 #separate_longer_delim() then makes a new row for that split
 #from the tidyr package
+#separated_rows contains each mutation and its associated sequence information per row
 separated_rows <- sequence_mutations_data %>%
   separate_longer_delim(Mutations, delim = "|") %>%
   view()
 
 
-###### pivot_wider() ######
+##### pivot_wider() #####
 
 #Using pivot_wider to get wide data
 wide_data <- separated_rows %>%
@@ -42,7 +45,7 @@ no_na <- wide_data %>%
   view()
 
 
-###### Completed data ######
+##### Completed data #####
 
 #Need to recombine the vectorised data with the sequence information
 #Going to look to use a join()
