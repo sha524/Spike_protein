@@ -1,9 +1,14 @@
 ################ Research Project #################
 
+#Going to the use the practice data
+#Only the first 100 sequences
+
 
 ###### What does this R script contain ######
 
-#Table of sequence information and mutations
+#Similar script to practice script - Date and the number of sequences per day.R
+
+#Creating a table of sequence information and mutations for the practice data
 
 #Counting the number of mutations per sequence
 
@@ -49,7 +54,7 @@ practice_spike_df$Sample_Date <- str_extract(practice_spike_df$Sequence_Informat
 practice_spike_df$Number_of_Mutations <- str_count(practice_spike_df$Mutations, "\\|") + 1
 
 
-###### Number of mutations per sequence ######
+##### Plotting the number of mutations per sequence #####
 ggplot(practice_spike_df, aes(x = Sequence_Information, y = Number_of_Mutations)) +
   geom_col() +
   xlab("Sequences") +

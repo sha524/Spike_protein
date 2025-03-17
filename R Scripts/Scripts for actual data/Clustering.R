@@ -4,7 +4,7 @@
 #UK_seqs_msa_0522_spike_mutations.txt
 
 
-###### What does this R script contain #####
+##### What does this R script contain #####
 
 #Clustering
 
@@ -14,7 +14,7 @@
 
 
 
-###### Setup and introduction to clustering #####
+##### Setup and introduction to clustering #####
 
 #K-means clustering is an unsupervised learning technique
 #Clustering involves finding homogeneous subgroups within a larger group
@@ -24,14 +24,17 @@
 #Will take a sample of wide_combined to ensure the algorithm works
 sample_wide_combined <- wide_combined %>%
   select(-Sequence_Information) %>%
-  sample_n(10000) %>%
+  sample_n(100000) %>%
   na.omit()
 
 clustering_data <- wide_combined %>%
   select(-Sequence_Information) %>%
   na.omit()
 
-###### Selecting the number of clusters #####
+##### Selecting the number of clusters #####
+
+#Going to time how long the process takes
+system.time({
 
 #Initialise total within sum of squares error
 #Will hold the wss values for 1 to 15 clusters
@@ -45,6 +48,7 @@ for(i in 1:15) {
   wss[i] <- km.out$tot.withinss
 
 }
+})
 
 #Plot total within sum of squares vs number of clusters
 plot(1:15, wss, type = "b",

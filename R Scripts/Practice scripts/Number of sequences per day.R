@@ -1,15 +1,17 @@
 ################ Research Project ################
 
 
-###### What does this R script contain ######
+##### What does this R script contain #####
 
 #Library of packages needed for this analysis
 
 #Contains the code for how to calculate and plot the number of sequences per day
 
+#This script uses an old data set, cog_metadata_28_1_22.csv
+#cog_metadata_28_1_22.csv did not contain the full data set from GISAID
 
 
-###### Set up ######
+##### Set up #####
 
 #Reading in the data
 sarscov2_data <- read.csv("./data/cog_metadata_28_1_22.csv")
@@ -28,7 +30,7 @@ library(usethis)
 library(cowplot)
 library(mgcv)
 
-###### Number of sequences per day #####
+##### Number of sequences per day #####
 
 #Ensure the sample date column is in date format
 sarscov2_data$sample_date <- as.Date(sarscov2_data$sample_date)
