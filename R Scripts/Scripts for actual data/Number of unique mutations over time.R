@@ -38,7 +38,7 @@ novel_plot <- UK_sequences_df %>%
   summarise(count = n()) %>%
 #plotting the number of unique mutations over time
   ggplot(aes(x = Sample_date, y = count, colour = as.factor(year))) +
-  geom_point() +
+  geom_point(alpha = 0.9) +
   xlab("Sample date") +
   ylab("Number of novel mutations") +
   scale_x_date(breaks = as.Date(c("2020-01-01", "2021-01-01",
@@ -111,6 +111,7 @@ median_novel_plot <- summary_year_novel %>%
   geom_col() +
   xlab("Year") +
   ylab("Median number of novel mutations") +
+  ylim(0, 15) +
   scale_fill_manual(values = c("2020" = "red", "2021" = "blue", "2022" = "green",
                                "2023" = "yellow", "2024" = "purple")) +
   theme(panel.background = element_rect(fill = "white"),
