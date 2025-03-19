@@ -45,14 +45,14 @@ UK_sequences_df %>%
   geom_point(alpha = 0.7)
 
 #Violin plot by year
-UK_sequences_df %>%
+violin_plot <- UK_sequences_df %>%
   # sample_n(5000) %>%
   ggplot(aes(x = as.factor(year), y = Number_of_mutations, fill = as.factor(year))) +
   geom_violin() +
   stat_summary(fun = median, show.legend = FALSE, geom = "crossbar", width = 1,
                linewidth = 0.45) +
   # geom_jitter(size = 0.3, alpha = 0.1) +
-  ylab("Number of mutations") +
+  ylab("Number of mutations per sequence") +
   xlab("Year") +
   scale_fill_manual(values = c("2020" = "grey", "2021" = "blue",
                                "2022" = "red", "2023" = "green",
@@ -62,11 +62,12 @@ UK_sequences_df %>%
   #                                "2024" = "purple")) +
   theme(panel.background = element_rect(fill = "white"),
         axis.line = element_line(colour = "black"),
-        axis.title = element_text(face = "bold", size = 20),
+        axis.title = element_text(face = "bold", size = 14),
         axis.title.x = element_text(margin = margin(t = 10)),
         axis.title.y = element_text(margin = margin(r = 10)),
         legend.position = "none",
-        axis.text = element_text(size = 12))
+        axis.text = element_text(size = 12),
+        plot.margin = unit(c(2, 2, 2, 2), "cm"))
 
 
 
@@ -93,11 +94,27 @@ summary_mutations_UK <- UK_sequences_df %>%
             var_mutations = var(Number_of_mutations))
 
 #Plotting the median values
-ggplot(summary_mutations_UK, aes(x = year, y = median_mutations)) +
+median_values <- ggplot(summary_mutations_UK, aes(x = year, y = median_mutations)) +
   geom_point() +
-  geom_smooth(method = "lm", se = FALSE)
+  geom_smooth(method = "lm", se = FALSE, colour = "dodgerblue") +
+  xlab("Year") +
+  ylab("Median number of mutations per sequence") +
+  ylim(0, 80) +
+  theme(panel.background = element_rect(fill = "white"),
+        axis.line = element_line(colour = "black"),
+        axis.title = element_text(face = "bold", size = 14),
+        axis.title.x = element_text(margin = margin(t = 10)),
+        axis.title.y = element_text(margin = margin(r = 10)),
+        axis.text = element_text(size = 12),
+        plot.margin = unit(c(2, 2, 2, 2), "cm"))
 
 
+##### Final figure #####
+plot_grid(violin_plot, median_values, labels = c("A", "B"))
+
+
+
+##### Statistics #####
 
 #Question:    Does the number of mutations
 #             per sequence increase with each year?
