@@ -24,7 +24,7 @@
 #Will take a sample of wide_combined to ensure the algorithm works
 sample_wide_combined <- wide_combined %>%
   select(-Sequence_Information) %>%
-  sample_n(100000) %>%
+  sample_n(200000) %>%
   na.omit()
 
 clustering_data <- wide_combined %>%
