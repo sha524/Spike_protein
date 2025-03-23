@@ -30,6 +30,8 @@ library(usethis)
 library(cowplot)
 library(mgcv)
 
+install.packages("sf")
+
 ##### Number of sequences per day #####
 
 #Ensure the sample date column is in date format
