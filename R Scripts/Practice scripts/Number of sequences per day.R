@@ -29,8 +29,7 @@ library(devtools)
 library(usethis)
 library(cowplot)
 library(mgcv)
-
-install.packages("sf")
+library(factoextra)
 
 ##### Number of sequences per day #####
 
