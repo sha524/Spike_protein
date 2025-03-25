@@ -24,7 +24,7 @@
 #Will take a sample of wide_combined to ensure the algorithm works
 sample_wide_combined <- wide_combined %>%
   select(-Sequence_Information) %>%
-  sample_n(200000) %>%
+  sample_n(100000) %>%
   na.omit()
 
 clustering_data <- wide_combined %>%
@@ -33,7 +33,17 @@ clustering_data <- wide_combined %>%
 
 ##### Dimensional reduction #####
 
-#PCA?
+#PCA
+#Going to perform a dimensionality reduction on the clustering data
+#1000 most common mutations
+
+my_pca <- prcomp(clustering_data,
+                scale = TRUE)
+summary(my_pca)
+
+my_pca_data <- data.frame(my_pca$x[ , 1:2])
+head(my_pca_data)
+
 
 
 ##### Selecting the number of clusters #####
@@ -48,7 +58,7 @@ wss <- 0
 #Looping through different numbers of clusters
 #For 1 to 10 clusters
 for(i in 1:10) {
-  km.out <- kmeans(clustering_data, centers = i, nstart = 20)
+  km.out <- kmeans(my_pca_data, centers = i, nstart = 10)
   #Save total within sum of squares to wss variable
   wss[i] <- km.out$tot.withinss
 
@@ -61,7 +71,6 @@ plot(1:10, wss, type = "b",
      ylab = "Within groups sum of squares")
 
 
-
-
-
-
+#K-means clustering
+km <- kmeans(mypca_data, centers = 4, nstart = 10)
+summary(km)
