@@ -31,6 +31,11 @@ clustering_data <- wide_combined %>%
   select(-Sequence_Information) %>%
   na.omit()
 
+##### Dimensional reduction #####
+
+#PCA?
+
+
 ##### Selecting the number of clusters #####
 
 #Going to time how long the process takes
@@ -41,8 +46,8 @@ system.time({
 wss <- 0
 
 #Looping through different numbers of clusters
-#For 1 to 15 clusters
-for(i in 1:15) {
+#For 1 to 10 clusters
+for(i in 1:10) {
   km.out <- kmeans(clustering_data, centers = i, nstart = 20)
   #Save total within sum of squares to wss variable
   wss[i] <- km.out$tot.withinss
@@ -51,7 +56,7 @@ for(i in 1:15) {
 })
 
 #Plot total within sum of squares vs number of clusters
-plot(1:15, wss, type = "b",
+plot(1:10, wss, type = "b",
      xlab = "Number of Clusters",
      ylab = "Within groups sum of squares")
 
