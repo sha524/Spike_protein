@@ -6,6 +6,11 @@
 
 ##### What does this R script contain #####
 
+#Dimensional reduction
+#Two methods used:
+#Principle component analysis (PCA)
+#t-distributed stochastic neighbor embedding (t-SNE)
+
 #Clustering
 
 #Elbow plots to determine the number of clusters to use
@@ -48,6 +53,8 @@ head(my_pca_data)
 
 ##### Selecting the number of clusters #####
 
+#Performing K-means clustering
+
 #Going to time how long the process takes
 system.time({
 
@@ -72,5 +79,5 @@ plot(1:10, wss, type = "b",
 
 
 #K-means clustering
-km <- kmeans(mypca_data, centers = 4, nstart = 10)
+km <- kmeans(my_pca_data, centers = 3, nstart = 10)
 summary(km)
