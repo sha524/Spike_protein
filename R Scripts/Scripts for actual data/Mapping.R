@@ -31,7 +31,12 @@ ggplot(UK_map, aes(x = long, y = lat, group = group)) +
 #ggthemes package
 #rnaturalearth package
 
-UK_map2 <- ne_countries(scale = "medium", returnclass = "sf")
+#Using the ne_states() function from the rnaturalearth package
+#to select the 4 countries of the UK
+UK_map2 <- ne_states(country =  "United Kingdom", returnclass = "sf")
+
+gpplot(UK_map2) +
+  geom_sf()
 
 
 
