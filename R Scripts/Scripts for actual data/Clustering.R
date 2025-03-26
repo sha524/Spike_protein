@@ -81,3 +81,5 @@ plot(1:10, wss, type = "b",
 #K-means clustering
 km <- kmeans(my_pca_data, centers = 3, nstart = 10)
 summary(km)
+
+
