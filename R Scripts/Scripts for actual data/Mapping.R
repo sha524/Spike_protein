@@ -19,7 +19,23 @@
 
 #Creating a map using map_data
 UK_map <- map_data("world") %>%
-  filter(region == "United Kingdom")
+  filter(region == "UK") %>%
+  select(-region)
+view(UK_map)
+
+ggplot(UK_map, aes(x = long, y = lat, group = group)) +
+  geom_polygon()
+
+#To create a map of the UK with borders
+#Need to use the sf package
+#ggthemes package
+#rnaturalearth package
+
+UK_map2 <- ne_countries(scale = "medium", returnclass = "sf")
 
 
-ggplot(map_data, aes)
+
+
+
+
+

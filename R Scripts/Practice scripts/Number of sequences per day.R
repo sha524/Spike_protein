@@ -30,6 +30,14 @@ library(usethis)
 library(cowplot)
 library(mgcv)
 library(factoextra)
+library(maps)
+library(mapproj)
+library(sf)
+library(ggthemes)
+library(rnaturalearth)
+library(rnaturalearthdata)
+
+
 
 ##### Number of sequences per day #####
 
