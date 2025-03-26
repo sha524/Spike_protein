@@ -39,6 +39,7 @@ library(rnaturalearthdata)
 
 
 
+
 ##### Number of sequences per day #####
 
 #Ensure the sample date column is in date format

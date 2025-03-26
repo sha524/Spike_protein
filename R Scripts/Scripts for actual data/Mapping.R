@@ -39,3 +39,4 @@ UK_map2 <- ne_countries(scale = "medium", returnclass = "sf")
 
 
 
+
