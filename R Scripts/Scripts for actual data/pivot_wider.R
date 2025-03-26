@@ -150,7 +150,6 @@ wide_combined <- combined %>%
 #All the NA's to 0's
 #All the places where mutations are present to 1's
   mutate(across(-Sequence_Information, ~ ifelse(is.na(.), 0, 1)))
-  
 
 
 
