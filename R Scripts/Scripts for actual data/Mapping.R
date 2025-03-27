@@ -41,8 +41,11 @@ UK_map2 <- ne_countries(country =  "United Kingdom", returnclass = "sf", type = 
 
 UK_map2 %>%
   ggplot(aes(fill = geounit)) +
-  geom_sf() +
-  scale_fill_viridis_d() +
+  geom_sf(colour = "black", lwd = 0.8) +
+  scale_fill_manual(values = c("England" = "#440154FF",
+                               "Scotland" = "#35B779FF",
+                               "Wales" = "yellow",
+                               "Northern Ireland" = "white")) +
   theme_map() +
   theme(legend.position = "none")
 
