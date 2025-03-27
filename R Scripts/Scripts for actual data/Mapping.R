@@ -27,18 +27,27 @@ ggplot(UK_map, aes(x = long, y = lat, group = group)) +
   geom_polygon()
 
 #To create a map of the UK with borders
-#Need to use the sf package
-#ggthemes package
-#rnaturalearth package
+#Using 5 packages here:
+#sf
+#ggthemes
+#rnaturalearth
+#rnaturalearthdata
+#rnaturalearthhires
 
 #Using the ne_states() function from the rnaturalearth package
 #to select the 4 countries of the UK
-UK_map2 <- ne_states(country =  "United Kingdom", returnclass = "sf")
+UK_map2 <- ne_countries(country =  "United Kingdom", returnclass = "sf", type = "map_units",
+                     scale = "medium")
 
-gpplot(UK_map2) +
-  geom_sf()
-
-
+UK_map2 %>%
+  ggplot(aes(fill = geounit)) +
+  geom_sf(colour = "black", lwd = 0.8) +
+  scale_fill_manual(values = c("England" = "#440154FF",
+                               "Scotland" = "#35B779FF",
+                               "Wales" = "yellow",
+                               "Northern Ireland" = "white")) +
+  theme_map() +
+  theme(legend.position = "none")
 
 
 

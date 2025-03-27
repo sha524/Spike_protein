@@ -12,7 +12,7 @@
 
 #First 100 sequences
 practice_sequences <- UK_sequences_df %>%
-  head(100)
+  sample_n(100)
 
 
 ###### Extracting the country of origin ######
