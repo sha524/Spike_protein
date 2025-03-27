@@ -38,7 +38,7 @@ clustering_data <- wide_combined %>%
 
 ##### Dimensional reduction #####
 
-#PCA
+#### PCA ####
 #Going to perform a dimensionality reduction on the clustering data
 #1000 most common mutations
 
@@ -46,8 +46,38 @@ my_pca <- prcomp(clustering_data,
                 scale = TRUE)
 summary(my_pca)
 
+#Scree plot
+#Percentage from PCA
+#Proportion of variance for a scree plot
+
+#Variability of each principle component
+pr.var <- my_pca$sdev^2
+
+#Variance explained by each principle component
+pve <- pr.var/sum(pr.var)
+
+#Plot variance explained for each principle component
+plot(pve, xlab = "Principle Component",
+     ylab = "Proportion of Variance Explained",
+     ylim = c(0, 1), type = "b")
+
+
+#Plotting the cumulative proportion of variance explained
+cumulative_pve <- cumsum(pve)
+plot(cumulative_pve, xlab = "Principle Component",
+     ylab = "Cumulative Proportion of Variance Explained",
+     type = "b")
+
+#Selecting the PC1 and PC2
 my_pca_data <- data.frame(my_pca$x[ , 1:2])
 head(my_pca_data)
+
+
+#### t-SNE ####
+
+
+
+
 
 
 
@@ -73,7 +103,7 @@ for(i in 1:10) {
 })
 
 #Plot total within sum of squares vs number of clusters
-plot(1:10, wss, type = "b",
+plot(1:10, log10(wss), type = "b",
      xlab = "Number of Clusters",
      ylab = "Within groups sum of squares")
 
