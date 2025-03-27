@@ -13,8 +13,6 @@
 #geom_sf() function
 
 
-
-
 ##### Map #####
 
 #Creating a map using map_data
