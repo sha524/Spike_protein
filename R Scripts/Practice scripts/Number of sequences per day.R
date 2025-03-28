@@ -37,8 +37,7 @@ library(ggthemes)
 library(rnaturalearth)
 library(rnaturalearthdata)
 library(rnaturalearthhires)
-
-install.packages("rnaturalearthhires")
+library(Rtsne)
 
 
 ##### Number of sequences per day #####
