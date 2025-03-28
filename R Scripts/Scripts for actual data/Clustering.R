@@ -72,6 +72,11 @@ plot(cumulative_pve, xlab = "Principle Component",
 my_pca_data <- data.frame(my_pca$x[ , 1:2])
 head(my_pca_data)
 
+#Selecting PC1 to PC9
+#Looking the cumulative proportion of variance explained
+#can see that PC1 to PC2 explain most of the variance
+my_pca_data2 <- data.frame(my_pca$x[ , 1:9])
+head(my_pca_data2)
 
 #### t-SNE ####
 
@@ -95,15 +100,14 @@ wss <- 0
 #Looping through different numbers of clusters
 #For 1 to 10 clusters
 for(i in 1:10) {
-  km.out <- kmeans(my_pca_data, centers = i, nstart = 10)
+  km.out <- kmeans(my_pca_data2, centers = i, nstart = 10)
   #Save total within sum of squares to wss variable
   wss[i] <- km.out$tot.withinss
-
 }
 })
 
 #Plot total within sum of squares vs number of clusters
-plot(1:10, log10(wss), type = "b",
+plot(1:10, log(wss), type = "b",
      xlab = "Number of Clusters",
      ylab = "Within groups sum of squares")
 
@@ -111,5 +115,15 @@ plot(1:10, log10(wss), type = "b",
 #K-means clustering
 km <- kmeans(my_pca_data, centers = 3, nstart = 10)
 summary(km)
+
+
+
+##### Visualisation #####
+
+#PCA visualisation
+ggplot(km, aes(x = PC1, y = PC2)) +
+  geom_point() +
+  scale_fill_viridis()
+
 
 
