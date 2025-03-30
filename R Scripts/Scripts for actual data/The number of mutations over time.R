@@ -54,9 +54,9 @@ violin_plot <- UK_sequences_df %>%
   # geom_jitter(size = 0.3, alpha = 0.1) +
   ylab("Number of mutations per sequence") +
   xlab("Year") +
-  scale_fill_manual(values = c("2020" = "#fde725", "2021" = "#5ec962",
-                              "2022" = "#21918c", "2023" = "#3b528b",
-                               "2024" = "purple")) +
+  scale_fill_manual(values = c("2020" = "#f0f921", "2021" = "#f89540",
+                              "2022" = "#cc4778", "2023" = "#7e03a8",
+                               "2024" = "#0d0887")) +
   # scale_colour_manual(values = c("2020" = "grey", "2021" = "blue",
   #                                "2022" = "red", "2023" = "green",
   #                                "2024" = "purple")) +

@@ -51,7 +51,8 @@ novel_plot <- UK_sequences_df %>%
         axis.title.x = element_text(margin = margin(t = 10)),
         axis.title.y = element_text(margin = margin(r = 10)),
         legend.position = "none",
-        plot.margin = unit(c(2, 2, 2, 2), "cm")) +
+        plot.margin = unit(c(2, 2, 2, 2), "cm"),
+        axis.text = element_text(size = 12)) +
   scale_colour_manual(name = "year",
                     values = c("2020" = "#f0f921",
                                "2021" = "#f89540",
@@ -120,7 +121,7 @@ median_novel_plot <- summary_year_novel %>%
         axis.title = element_text(face= "bold", size = 14),
         axis.title.x = element_text(margin = margin(t = 10)),
         axis.title.y = element_text(margin = margin(r = 10)),
-        axis.text = element_text(size = 10),
+        axis.text = element_text(size = 12),
         legend.position = "none",
         plot.margin = unit(c(2, 2, 2, 2), "cm"))
 
