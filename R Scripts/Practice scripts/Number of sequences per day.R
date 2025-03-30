@@ -38,6 +38,9 @@ library(rnaturalearth)
 library(rnaturalearthdata)
 library(rnaturalearthhires)
 library(Rtsne)
+library(ggfortify)
+
+install.packages("ggfortify")
 
 
 ##### Number of sequences per day #####

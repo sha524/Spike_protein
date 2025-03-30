@@ -116,14 +116,22 @@ plot(1:10, log(wss), type = "b",
 km <- kmeans(my_pca_data, centers = 3, nstart = 10)
 summary(km)
 
-
+# test_k$clusters
+# size of the clusters
 
 ##### Visualisation #####
 
-#PCA visualisation
-ggplot(km, aes(x = PC1, y = PC2)) +
-  geom_point() +
-  scale_fill_viridis()
+#PCA visualisation for PCA before K-means clustering
+# autoplot(my_pca_data2,
+#          data = clustering_data,
+#          alpha = 0.7,
+#          loadings = TRUE,
+#          loadings.label = TRUE,
+#          loadings.colour = "black",
+#          loadings.label.colour = "black",
+#          loadings.label.repel = TRUE)
 
+
+#PCA clustering visualisation
 
 
