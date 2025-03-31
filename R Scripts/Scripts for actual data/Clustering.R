@@ -63,6 +63,7 @@ plot(pve, xlab = "Principle Component",
 
 
 #Plotting the cumulative proportion of variance explained
+#Used to help determine the number of principle components to retain
 cumulative_pve <- cumsum(pve)
 plot(cumulative_pve, xlab = "Principle Component",
      ylab = "Cumulative Proportion of Variance Explained",
@@ -80,10 +81,12 @@ head(my_pca_data2)
 
 #### t-SNE ####
 
+#Setting a seed to make the algorithm reproducible
 
-
-
-
+#Timing the t-SNE
+system.file({
+tsne <- Rtsne(clustering_data)
+})
 
 
 ##### Selecting the number of clusters #####
@@ -93,14 +96,14 @@ head(my_pca_data2)
 #Going to time how long the process takes
 system.time({
 
-#Initialise total within sum of squares error
+#Initialise total within sum of squares 
 #Will hold the wss values for 1 to 15 clusters
 wss <- 0
 
 #Looping through different numbers of clusters
 #For 1 to 10 clusters
 for(i in 1:10) {
-  km.out <- kmeans(my_pca_data2, centers = i, nstart = 10)
+  km.out <- kmeans(my_pca_data, centers = i, nstart = 10)
   #Save total within sum of squares to wss variable
   wss[i] <- km.out$tot.withinss
 }
@@ -109,17 +112,63 @@ for(i in 1:10) {
 #Plot total within sum of squares vs number of clusters
 plot(1:10, log(wss), type = "b",
      xlab = "Number of Clusters",
-     ylab = "Within groups sum of squares")
+     ylab = "Within cluster sum of squares")
 
 
 #K-means clustering
-km <- kmeans(my_pca_data, centers = 3, nstart = 10)
+km <- kmeans(my_pca_data, centers = 7, nstart = 10)
 summary(km)
 
+km$size
 # test_k$clusters
 # size of the clusters
 
 ##### Visualisation #####
+
+#Elbow plots visualisation
+#PC1_PC2
+PC1_PC2 <- tibble(Clusters = 1:10,
+       log_wss = log(wss)) %>%
+  ggplot(aes(x = Clusters, y = log_wss)) +
+  geom_point(size = 3, colour = "red") +
+  geom_line(size = 1) +
+  xlab("Number of clusters") +
+  ylab("log Within cluster sum of squares") +
+  scale_x_continuous(breaks = c(2, 4, 6, 8, 10)) +
+  annotate("text", x = 3.65, y = 16.65, colour = "black", label = "Elbow") +
+  geom_segment(x = 3.5, y = 16.6, xend = 3.1, yend = 15.9, arrow = arrow(length = unit(0.7, "cm")),
+                                                                                     colour = "black",
+                                                                                     size = 1.5) +
+  theme(panel.background = element_rect("white"),
+        axis.line = element_line(colour = "black"),
+        axis.title.x = element_text(margin = margin(t = 10), face = "bold"),
+        axis.title.y = element_text(margin = margin(r = 10), face = "bold"),
+        axis.text = element_text(size = 12))
+
+#PC1:PC9
+tibble(Clusters = 1:10,
+       log_wss = log(wss)) %>%
+  ggplot(aes(x = Clusters, y = log_wss)) +
+  geom_point(size = 3, colour = "red") +
+  geom_line(size = 1) +
+  xlab("Number of clusters") +
+  ylab("log Within cluster sum of squares") +
+  scale_x_continuous(breaks = c(2, 4, 6, 8, 10)) +
+  annotate("text", x = 3.65, y = 16.65, colour = "black", label = "Elbow") +
+  geom_segment(x = 3.5, y = 16.6, xend = 3.1, yend = 15.9, arrow = arrow(length = unit(0.7, "cm")),
+               colour = "black",
+               size = 1.5) +
+  theme(panel.background = element_rect("white"),
+        axis.line = element_line(colour = "black"),
+        axis.title.x = element_text(margin = margin(t = 10), face = "bold"),
+        axis.title.y = element_text(margin = margin(r = 10), face = "bold"),
+        axis.text = element_text(size = 12))
+
+
+plot_grid(PC1_PC2, label = "A")
+
+
+
 
 #PCA visualisation for PCA before K-means clustering
 # autoplot(my_pca_data2,
@@ -133,5 +182,5 @@ summary(km)
 
 
 #PCA clustering visualisation
-
+fvis_cluster
 
