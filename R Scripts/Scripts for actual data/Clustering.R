@@ -84,7 +84,7 @@ head(my_pca_data2)
 #Setting a seed to make the algorithm reproducible
 
 #Timing the t-SNE
-system.file({
+system.time({
 tsne <- Rtsne(clustering_data)
 })
 
@@ -182,5 +182,13 @@ plot_grid(PC1_PC2, label = "A")
 
 
 #PCA clustering visualisation
-fvis_cluster
+# fvis_cluster(km, geom = "point", data = my_pca_data)
+#or
+# my_pca_data$cluster_id <- factor(km or km.out$cluster)
+# ggplot(my_pca_data, aes(x = ?, y = ?, colour = cluster_id)) +
+#   scale_colour_viridis_?()
+
+
+
+
 
