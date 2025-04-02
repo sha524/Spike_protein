@@ -39,6 +39,16 @@ R packages used:
 - usethis
 - cowplot
 - mgcv
+- factoextra
+- maps
+- mapproj
+- sf
+- ggthemes
+- rnaturalearthdata
+- rnaturalearthhires
+- Rtsne
+- ggfortify
+- umap
 
 
 
