@@ -39,7 +39,7 @@ library(rnaturalearthdata)
 library(rnaturalearthhires)
 library(Rtsne)
 library(ggfortify)
-
+library(umap)
 
 ##### Number of sequences per day #####
 
