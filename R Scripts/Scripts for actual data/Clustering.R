@@ -44,8 +44,7 @@ clustering_data <- wide_combined %>%
 #Going to perform a dimensionality reduction on the clustering data
 #1000 most common mutations
 
-my_pca <- prcomp(clustering_data,
-                scale = TRUE)
+my_pca <- prcomp(clustering_data)
 summary(my_pca)
 
 #Scree plot
@@ -83,19 +82,13 @@ head(my_pca_data2)
 
 #### t-SNE ####
 
-
-
 #Using the distinct() function to remove duplicate values
 tsne_distinct <- clustering_data %>%
   distinct()
-
-#Scaling the data
-scaled_clustering_data <- scale(tsne_distinct)
   
-
 #Timing the t-SNE
 system.time({
-tsne <- Rtsne(scaled_clustering_data, perplexity = 30, n_iter = 500, n_components = 2)
+tsne <- Rtsne(tsne_distinct, perplexity = 30, n_iter = 500, n_components = 2)
 })
 
 #Component selection
@@ -105,7 +98,7 @@ tsne_df <- tibble(tsne_x = tsne$Y[, 1], tsne_y = tsne$Y[, 2])
 
 #### UMAP ####
 system.time ({
-umap <- umap(scaled_clustering_data)
+umap <- umap(clustering_data)
 })
 
 
