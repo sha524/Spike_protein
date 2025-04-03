@@ -44,8 +44,7 @@ clustering_data <- wide_combined %>%
 #Going to perform a dimensionality reduction on the clustering data
 #1000 most common mutations
 
-my_pca <- prcomp(clustering_data,
-                scale = TRUE)
+my_pca <- prcomp(clustering_data)
 summary(my_pca)
 
 #Scree plot
@@ -83,19 +82,13 @@ head(my_pca_data2)
 
 #### t-SNE ####
 
-
-
 #Using the distinct() function to remove duplicate values
 tsne_distinct <- clustering_data %>%
   distinct()
-
-#Scaling the data
-scaled_clustering_data <- scale(tsne_distinct)
   
-
 #Timing the t-SNE
 system.time({
-tsne <- Rtsne(scaled_clustering_data, perplexity = 30, n_iter = 500, n_components = 2)
+tsne <- Rtsne(tsne_distinct, perplexity = 30, n_iter = 500, n_components = 2)
 })
 
 #Component selection
@@ -105,7 +98,7 @@ tsne_df <- tibble(tsne_x = tsne$Y[, 1], tsne_y = tsne$Y[, 2])
 
 #### UMAP ####
 system.time ({
-umap <- umap(scaled_clustering_data)
+umap <- umap(clustering_data)
 })
 
 
@@ -180,14 +173,13 @@ PC1_PC9 <- tibble(Clusters = 1:10,
        log_wss = c(19.6, 19.3, 19, 18.95, 18.55, 18.25, 18.45, 17.75, 16.7, 17.3)) %>%
   ggplot(aes(x = Clusters, y = log_wss)) +
   geom_point(size = 3, colour = "red") +
-  geom_line(size = 1) +
+  geom_line(linewidth = 1) +
   xlab("Number of clusters") +
   ylab("log Within cluster sum of squares") +
   scale_x_continuous(breaks = c(2, 4, 6, 8, 10)) +
   annotate("text", x = 9, y = 17.5, colour = "black", label = "Elbow") +
   geom_segment(x = 9, y = 17.4, xend = 9, yend = 16.8, arrow = arrow(length = unit(0.7, "cm")),
-               colour = "black",
-               size = 1.5) +
+               colour = "black", size = 1.5) +
   theme(panel.background = element_rect("white"),
         axis.line = element_line(colour = "black"),
         axis.title.x = element_text(margin = margin(t = 10), face = "bold"),
@@ -197,14 +189,27 @@ PC1_PC9 <- tibble(Clusters = 1:10,
 
 
 #t-SNE elbow plot
-tibble(Clusters = 1:10,
-       wss = wss) %>%
-  ggplot(aes(x = Clusters, y = wss)) +
-  geom_point() +
-  geom_line()
+tsne_elbow_plot <- tibble(Clusters = 1:10,
+       wcss = wss) %>%
+  ggplot(aes(x = Clusters, y = wcss)) +
+  geom_point(size = 3, colour = "red") +
+  geom_line(linewidth = 1) +
+  xlab("Number of clusters") +
+  ylab("Within cluster sum of squares") +
+  scale_x_continuous(breaks = c(2, 4, 6, 8, 10)) +
+  annotate("text", x = 3.5, y = 3.1e+07, colour = "black", label = "Elbow") +
+  geom_segment(x = 3.4, y = 3e+07, xend = 3.1, yend = 2e+07, arrow = arrow(length = unit(0.7, "cm")),
+               colour = "black", size = 1.5) +
+  theme(panel.background = element_rect("white"),
+        axis.line = element_line(colour = "black"),
+        axis.title.x = element_text(margin = margin(t = 10), face = "bold"),
+        axis.title.y = element_text(margin = margin(r = 10), face = "bold"),
+        axis.text = element_text(size = 12),
+        plot.margin = unit(c(2, 2, 2, 2), "cm"))
+  
 
-
-plot_grid(PC1_PC2, PC1_PC9, labels = c("A", "B"))
+#Final plot
+plot_grid(PC1_PC1, PC1_PC9, tsne_elbow_plot, labels = c("A", "B", "C"))
 
 
 
