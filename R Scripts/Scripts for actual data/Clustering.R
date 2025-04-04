@@ -97,31 +97,37 @@ tsne_df <- tibble(tsne_x = tsne$Y[, 1], tsne_y = tsne$Y[, 2])
 
 
 #### UMAP ####
+
+#Timing the umap
 system.time ({
 umap <- umap(clustering_data)
 })
 
+#Component selection
 
 ##### Selecting the number of clusters #####
 
 #Performing K-means clustering
 #Following each dimensionality reduction method K-means clustering was performed
 
+
 #Going to time how long the process takes
 system.time({
-
+  
 #Initialise total within sum of squares 
 #Will hold the wss values for 1 to 10 clusters
 wss <- 0
-
+  
 #Looping through different numbers of clusters
 #For 1 to 10 clusters
 for(i in 1:10) {
   km.out <- kmeans(tsne_df, centers = i, nstart = 10)
-  #Save total within sum of squares to wss variable
+    #Save total within sum of squares to wss variable
   wss[i] <- km.out$tot.withinss
-}
+  }
 })
+
+
 
 #Plot total within sum of squares vs number of clusters
 plot(1:10, wss, type = "b",
@@ -139,7 +145,7 @@ km$size
 
 ##### Visualisation #####
 
-#Elbow plots visualisation
+#### Elbow plots visualisation ####
 #PC1_PC2
 #Because I forgot to set a random seed for the PCA results
 #I am going to have to manually create a data frame
@@ -209,10 +215,10 @@ tsne_elbow_plot <- tibble(Clusters = 1:10,
   
 
 #Final plot
-plot_grid(PC1_PC1, PC1_PC9, tsne_elbow_plot, labels = c("A", "B", "C"))
+plot_grid(PC1_PC2, PC1_PC9, tsne_elbow_plot, labels = c("A", "B", "C"))
 
 
-
+#### Dimensionality reduction visualisation ####
 
 #PCA visualisation for PCA before K-means clustering
 # autoplot(my_pca_data2,
@@ -224,25 +230,78 @@ plot_grid(PC1_PC1, PC1_PC9, tsne_elbow_plot, labels = c("A", "B", "C"))
 #          loadings.label.colour = "black",
 #          loadings.label.repel = TRUE)
 
-# autoplot(my_pca, data = clustering_data)
 
 
 #PCA clustering visualisation
 # fvis_cluster(km, geom = "point", data = my_pca_data)
 #or
 #PC1:PC2
-my_pca_data$cluster_id <- factor(km.out$cluster)
-ggplot(my_pca_data, aes(x = PC1, y = PC2, colour = cluster_id)) +
-  geom_point() +
-  scale_colour_viridis_d()
-
+# my_pca_data$cluster_id <- factor(km.out$cluster)
+# ggplot(my_pca_data, aes(x = PC1, y = PC2, colour = cluster_id)) +
+#   geom_point() +
+#   scale_colour_viridis_d()
+# 
 #PC1:PC9
+#Assigning each row to its respective cluster
 my_pca_data2$cluster_id <- factor(km.out$cluster)
-ggplot(my_pca_data2)
+PC1_PC9_plot <- ggplot(my_pca_data2, aes(x = PC1, y = PC9, colour = cluster_id)) +
+  geom_point() +
+  scale_colour_viridis_d() +
+  xlab("PC1") +
+  ylab("PC9") +
+  labs(colour = "Cluster") +
+  theme(panel.background = element_rect(fill = "white"),
+        axis.line = element_line(colour = "black"),
+        axis.title = element_text(face = "bold", size = 12),
+        axis.title.x = element_text(margin = margin(t = 10)),
+        axis.title.y = element_text(margin = margin(r = 10)),
+        plot.margin = unit(c(1, 1, 1, 1), "cm"))
+  
+
+#Graph of individuals
+#was taking ages to plot
+#so I am going to use ggplot
+# pca_plot <- fviz_pca_ind(my_pca,
+#                 axes = c(1, 2),
+#                 label = "none")
+# 
+# ggsave("pca_plot", plot = pca_plot, width = 8, height = 6, dpi = 300)
 
 
+#t-SNE
+tsne_df$cluster_id <- factor(km.out$cluster)
+tsne_plot <- ggplot(tsne_df, aes(x = tsne_x, y = tsne_y, colour = cluster_id)) +
+  geom_point() +
+  scale_colour_viridis_d() +
+  xlab("t-SNE dimension 1") +
+  ylab("t-SNE dimension 2") +
+  labs(colour = "Cluster") +
+  theme(panel.background = element_rect(fill = "white"),
+        axis.line = element_line(colour = "black"),
+        axis.title = element_text(face = "bold", size = 12),
+        axis.title.x = element_text(margin = margin(t = 10)),
+        axis.title.y = element_text(margin = margin(r = 10)),
+        plot.margin = unit(c(1, 1, 1, 1), "cm"))
+        
 
 
+#umap
+umap_df$cluster_id <- factor(km.out$cluster)
+umap_plot <- ggplot(umap_df, aes(x = umap_x, y = umap_y, colour = cluster_id)) +
+  geom_point() +
+  scale_colour_viridis_d() +
+  xlab("UMAP dimension 1") +
+  ylab("UMAP dimension 2") +
+  labs(colour = "Cluster") +
+  theme(panel.background = element_rect(fill = "white"),
+        axis.line = element_line(colour = "black"),
+        axis.title = element_text(face = "bold", size = 12),
+        axis.title.x = element_text(margin = margin(t = 10)),
+        axis.title.y = element_text(margin = margin(r = 10)),
+        plot.margin = unit(c(1, 1, 1, 1), "cm"))
 
+
+#Final figure
+plot_grid(PC1_PC9_plot, tsne_plot, umap_plot, labels = c("A", "B", "C"))
 
 
