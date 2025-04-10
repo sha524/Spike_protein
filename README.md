@@ -26,32 +26,39 @@ git lfs was used for storage of large files
 [Moorhen](https://github.com/moorhen-coot/Moorhen) is a molecular graphics software used to produce protein structures in the report
 
 
-R packages used:
+**R packages used:**
+
+Graphics packages:
 - ggplot2
-- Rmisc
-- tidyverse
-- viridis
-- hrbrthemes
-- pgirmess
-- dplyr
-- stringr
-- devtools
-- usethis
 - cowplot
-- mgcv
-- factoextra
+- ggfortify
 - maps
 - mapproj
 - sf
 - ggthemes
 - rnaturalearthdata
 - rnaturalearthhires
+- viridis
+- hrbrthemes
+
+Data wrangling and manipulation:
+- tidyverse
+- dplyr
+- stringr
+
+Statistical packages:
+- mgcv
+- Rmisc
+- pgirmess
+
+Help installing additional packages:
+- devtools
+- usethis
+
+Dimensionality reduction
+- factoextra
 - Rtsne
-- ggfortify
 - umap
-
-
-
 
 
 ## The files
