@@ -103,17 +103,19 @@ R project used for general organisation and management
 
 Recommended order to look at Scripts for actual data
 
+Scripts that relate to figures have been shown
+
 **Introduction to the dataset**
 
-1. Number of sequences per day.R
-2. Number of mutations over time.R
-3. Number of unique mutations over time.R
+1. Number of sequences per day.R ➡️ Figure 1
+2. Number of mutations over time.R ➡️ Figure 2
+3. Number of unique mutations over time.R ➡️ Figure 3
 
 **Clustering and the distribution of mutations**
 
 1. pivot_wider.R
-2. Clustering.R
-3. Mapping.R
+2. Clustering.R ➡️ Figure 4, Figure 5 and Figure 6
+3. Mapping.R ➡️ Figure 7
 
 **Mutation analysis**
 
