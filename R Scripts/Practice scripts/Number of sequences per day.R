@@ -40,6 +40,8 @@ library(rnaturalearthhires)
 library(Rtsne)
 library(ggfortify)
 library(umap)
+library(uwot)
+library(Matrix)
 
 ##### Number of sequences per day #####
 
