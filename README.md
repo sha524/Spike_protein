@@ -45,6 +45,7 @@ Data wrangling and manipulation:
 - tidyverse
 - dplyr
 - stringr
+- Matrix
 
 Statistical packages:
 - mgcv
@@ -59,6 +60,7 @@ Dimensionality reduction
 - factoextra
 - Rtsne
 - umap
+- uwot
 
 
 ## The files
@@ -114,10 +116,12 @@ Scripts that relate to figures have been shown
 **Clustering and the distribution of mutations**
 
 1. pivot_wider.R
-2. Clustering.R ➡️ Figure 4, Figure 5 and Figure 6
-3. Mapping.R ➡️ Figure 7
+2. Clustering.R ➡️ Figure 4, Figure 5, Figure 6 and Figure 7
+3. Mapping.R ➡️ Figure 8
 
 **Mutation analysis**
+
+1. X ➡️ 
 
 
 
