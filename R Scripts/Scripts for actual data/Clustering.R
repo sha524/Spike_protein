@@ -98,9 +98,20 @@ tsne_df <- tibble(tsne_x = tsne$Y[, 1], tsne_y = tsne$Y[, 2])
 
 #### UMAP ####
 
+#Having problems with UMAP
+#Algorithm keeps crashing, most likely due memory problems
+#Going to convert clustering_data into a sparse matrix
+sparse_clustering <- as(as.matrix(clustering_data), "dgCMatrix")
+sparse_clustering <- as_tibble(sparse_clustering)
+
+#This still was not working so I took a random
+#500000 sample
+UMAP_sample <- clustering_data %>%
+  sample_n(500000)
+
 #Timing the umap
 system.time ({
-umap <- umap(clustering_data)
+umap <- umap(UMAP_sample)
 })
 
 #Component selection
@@ -121,7 +132,7 @@ wss <- 0
 #Looping through different numbers of clusters
 #For 1 to 10 clusters
 for(i in 1:10) {
-  km.out <- kmeans(tsne_df, centers = i, nstart = 10)
+  km.out <- kmeans(umap, centers = i, nstart = 10)
     #Save total within sum of squares to wss variable
   wss[i] <- km.out$tot.withinss
   }
@@ -151,7 +162,7 @@ km$size
 #I am going to have to manually create a data frame
 #containing the data points
 
-PC1_PC2 <- tibble(Clusters = 1:10,
+part_a <- tibble(Clusters = 1:10,
        log_wss = c(8.2, 7.75, 6.8, 6.7, 6.65, 6.6, 5.5, 5.4, 5.38, 5.37)) %>%
   ggplot(aes(x = Clusters, y = log_wss)) +
   geom_point(size = 3, colour = "red") +
@@ -160,11 +171,11 @@ PC1_PC2 <- tibble(Clusters = 1:10,
   ylab("log Within cluster sum of squares") +
   ylim(5, 8.5) +
   scale_x_continuous(breaks = c(2, 4, 6, 8, 10)) +
-  annotate("text", x = 3.65, y = 7.6, colour = "black", label = "Elbow") +
+  annotate("text", x = 3.65, y = 7.62, colour = "black", label = "Elbow") +
   geom_segment(x = 3.5, y = 7.5, xend = 3.1, yend = 7, arrow = arrow(length = unit(0.7, "cm")),
                                                                                      colour = "black",
                                                                                      size = 1.5) +
-  annotate("text", x = 8, y = 6.1, colour = "black", label = "Elbow") +
+  annotate("text", x = 7.95, y = 6.12, colour = "black", label = "Elbow") +
   geom_segment(x = 7.8, y = 6, xend = 7.2, yend = 5.6, arrow = arrow(length = unit(0.7, "cm")),
                colour = "black", size = 1.5) +
   theme(panel.background = element_rect("white"),
@@ -175,7 +186,7 @@ PC1_PC2 <- tibble(Clusters = 1:10,
         plot.margin = unit(c(2, 2, 2, 2), "cm"))
 
 #PC1:PC9
-PC1_PC9 <- tibble(Clusters = 1:10,
+part_b <- tibble(Clusters = 1:10,
        log_wss = c(19.6, 19.3, 19, 18.95, 18.55, 18.25, 18.45, 17.75, 16.7, 17.3)) %>%
   ggplot(aes(x = Clusters, y = log_wss)) +
   geom_point(size = 3, colour = "red") +
@@ -186,6 +197,9 @@ PC1_PC9 <- tibble(Clusters = 1:10,
   annotate("text", x = 9, y = 17.5, colour = "black", label = "Elbow") +
   geom_segment(x = 9, y = 17.4, xend = 9, yend = 16.8, arrow = arrow(length = unit(0.7, "cm")),
                colour = "black", size = 1.5) +
+  annotate("text", x = 6, y = 19.4, colour = "black", label = "Elbow") +
+  geom_segment(x = 6, y = 19.3, xend = 6, yend = 18.4, arrow = arrow(length = unit(0.7, "cm")),
+               colour = "black", size = 1.5) +
   theme(panel.background = element_rect("white"),
         axis.line = element_line(colour = "black"),
         axis.title.x = element_text(margin = margin(t = 10), face = "bold"),
@@ -195,16 +209,16 @@ PC1_PC9 <- tibble(Clusters = 1:10,
 
 
 #t-SNE elbow plot
-tsne_elbow_plot <- tibble(Clusters = 1:10,
-       wcss = wss) %>%
+part_c <- tibble(Clusters = 1:10,
+       wcss = c(4.8e+07, 3e+07, 1.9e+07, 1.4e+07, 1.3e+07, 1.1e+07, 1e+07, 0.99e+07, 0.98e+07, 0.97e+07)) %>%
   ggplot(aes(x = Clusters, y = wcss)) +
   geom_point(size = 3, colour = "red") +
   geom_line(linewidth = 1) +
   xlab("Number of clusters") +
   ylab("Within cluster sum of squares") +
   scale_x_continuous(breaks = c(2, 4, 6, 8, 10)) +
-  annotate("text", x = 3.5, y = 3.1e+07, colour = "black", label = "Elbow") +
-  geom_segment(x = 3.4, y = 3e+07, xend = 3.1, yend = 2e+07, arrow = arrow(length = unit(0.7, "cm")),
+  annotate("text", x = 3.45, y = 3.15e+07, colour = "black", label = "Elbow") +
+  geom_segment(x = 3.4, y = 3e+07, xend = 3.05, yend = 2e+07, arrow = arrow(length = unit(0.7, "cm")),
                colour = "black", size = 1.5) +
   theme(panel.background = element_rect("white"),
         axis.line = element_line(colour = "black"),
@@ -214,8 +228,29 @@ tsne_elbow_plot <- tibble(Clusters = 1:10,
         plot.margin = unit(c(2, 2, 2, 2), "cm"))
   
 
+#UMAP elbow plot
+part_d <- tibble(Clusters = 1:10,
+       wcss = wss) %>%
+  ggplot(aes(x = Clusters, y = wcss)) +
+  geom_point(size = 3, colour = "red") +
+  geom_line(linewidth = 1) +
+  xlab("Number of clusters") +
+  ylab("Within cluster sum of squares") +
+  scale_x_continuous(breaks = c(2, 4, 6, 8, 10)) +
+  annotate("text", x = 3.7, y = 8e+07, colour = "black", label = "Elbow") +
+  geom_segment(x = 3.4, y = 7e+07, xend = 3.1, yend = 5.4e+07, arrow = arrow(length = unit(0.7, "cm")),
+                colour = "black", size = 1.5) +
+  theme(panel.background = element_rect("white"),
+        axis.line = element_line(colour = "black"),
+        axis.title.x = element_text(margin = margin(t = 10), face = "bold"),
+        axis.title.y = element_text(margin = margin(r = 10), face = "bold"),
+        axis.text = element_text(size = 12),
+        plot.margin = unit(c(2, 2, 2, 2), "cm"))
+  
+
+
 #Final plot
-plot_grid(PC1_PC2, PC1_PC9, tsne_elbow_plot, labels = c("A", "B", "C"))
+plot_grid(part_a, part_b, part_c, part_d, labels = c("A", "B", "C", "D"))
 
 
 #### Dimensionality reduction visualisation ####
@@ -286,6 +321,7 @@ tsne_plot <- ggplot(tsne_df, aes(x = tsne_x, y = tsne_y, colour = cluster_id)) +
 
 
 #umap
+umap_df <- data.frame(umap)
 umap_df$cluster_id <- factor(km.out$cluster)
 umap_plot <- ggplot(umap_df, aes(x = umap_x, y = umap_y, colour = cluster_id)) +
   geom_point() +
