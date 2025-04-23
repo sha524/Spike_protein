@@ -107,7 +107,7 @@ sparse_clustering <- as_tibble(sparse_clustering)
 #This still was not working so I took a random
 #500000 sample
 UMAP_sample <- clustering_data %>%
-  sample_n(500000)
+  sample_n(100000)
 
 #Timing the umap
 system.time ({
@@ -147,7 +147,7 @@ plot(1:10, wss, type = "b",
 
 
 #K-means clustering
-km <- kmeans(my_pca_data, centers = 7, nstart = 10)
+km <- kmeans(tsne_df, centers = 3, nstart = 10)
 summary(km)
 
 km$size
@@ -317,13 +317,28 @@ tsne_plot <- ggplot(tsne_df, aes(x = tsne_x, y = tsne_y, colour = cluster_id)) +
         axis.title.x = element_text(margin = margin(t = 10)),
         axis.title.y = element_text(margin = margin(r = 10)),
         plot.margin = unit(c(1, 1, 1, 1), "cm"))
+
+#Clustering plot
+tsne_df$cluster_id <- factor(km$cluster)
+ggplot(tsne_df, aes(x = tsne_x, y = tsne_y, colour = cluster_id)) +
+  geom_point() +
+  scale_colour_viridis_d() +
+  xlab("t-SNE dimension 1") +
+  ylab("t-SNE dimension 2") +
+  labs(colour = "Cluster") +
+  theme(panel.background = element_rect(fill = "white"),
+        axis.line = element_line(colour = "black"),
+        axis.title = element_text(face = "bold", size = 12),
+        axis.title.x = element_text(margin = margin(t = 10)),
+        axis.title.y = element_text(margin = margin(r = 10)),
+        plot.margin = unit(c(1, 1, 1, 1), "cm"))
         
 
 
 #umap
 umap_df <- data.frame(umap)
 umap_df$cluster_id <- factor(km.out$cluster)
-umap_plot <- ggplot(umap_df, aes(x = umap_x, y = umap_y, colour = cluster_id)) +
+ggplot(umap_df, aes(x = X1, y = X2, colour = cluster_id)) +
   geom_point() +
   scale_colour_viridis_d() +
   xlab("UMAP dimension 1") +
@@ -337,7 +352,25 @@ umap_plot <- ggplot(umap_df, aes(x = umap_x, y = umap_y, colour = cluster_id)) +
         plot.margin = unit(c(1, 1, 1, 1), "cm"))
 
 
+#Clustering plot
+clustering_df <- data.frame(umap)
+clustering_df$cluster_id <- factor(km$cluster)
+ggplot(clustering_df, aes(x = X1, y = X2, colour = cluster_id)) +
+  geom_point() +
+  scale_colour_viridis_d() +
+  xlab("UMAP dimension 1") +
+  ylab("UMAP dimension 2") +
+  labs(colour = "Cluster") +
+  theme(panel.background = element_rect(fill = "white"),
+        axis.line = element_line(colour = "black"),
+        axis.title = element_text(face = "bold", size = 12),
+        axis.title.x = element_text(margin = margin(t = 10)),
+        axis.title.y = element_text(margin = margin(r = 10)),
+        plot.margin = unit(c(1, 1, 1, 1), "cm"))
+
+
+
 #Final figure
-plot_grid(PC1_PC9_plot, tsne_plot, umap_plot, labels = c("A", "B", "C"))
+plot_grid(PC1_PC9_plot, labels = "A")
 
 
