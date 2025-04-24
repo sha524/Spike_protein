@@ -107,7 +107,7 @@ sparse_clustering <- as_tibble(sparse_clustering)
 #This still was not working so I took a random
 #500000 sample
 UMAP_sample <- clustering_data %>%
-  sample_n(100000)
+  sample_n(500000)
 
 #Timing the umap
 system.time ({
@@ -115,6 +115,7 @@ umap <- umap(UMAP_sample)
 })
 
 #Component selection
+
 
 ##### Selecting the number of clusters #####
 
@@ -132,7 +133,7 @@ wss <- 0
 #Looping through different numbers of clusters
 #For 1 to 10 clusters
 for(i in 1:10) {
-  km.out <- kmeans(umap, centers = i, nstart = 10)
+  km.out <- kmeans(tsne_df, centers = i, nstart = 10)
     #Save total within sum of squares to wss variable
   wss[i] <- km.out$tot.withinss
   }
@@ -278,12 +279,12 @@ plot_grid(part_a, part_b, part_c, part_d, labels = c("A", "B", "C", "D"))
 # 
 #PC1:PC9
 #Assigning each row to its respective cluster
-my_pca_data2$cluster_id <- factor(km.out$cluster)
-PC1_PC9_plot <- ggplot(my_pca_data2, aes(x = PC1, y = PC9, colour = cluster_id)) +
+my_pca_data$cluster_id <- factor(km.out$cluster)
+PC1_PC2_plot <- ggplot(my_pca_data, aes(x = PC1, y = PC2, colour = cluster_id)) +
   geom_point() +
   scale_colour_viridis_d() +
   xlab("PC1") +
-  ylab("PC9") +
+  ylab("PC2") +
   labs(colour = "Cluster") +
   theme(panel.background = element_rect(fill = "white"),
         axis.line = element_line(colour = "black"),
@@ -292,6 +293,9 @@ PC1_PC9_plot <- ggplot(my_pca_data2, aes(x = PC1, y = PC9, colour = cluster_id))
         axis.title.y = element_text(margin = margin(r = 10)),
         plot.margin = unit(c(1, 1, 1, 1), "cm"))
   
+#Final plot for figrue
+plot_grid(PC1_PC2_plot, labels = "A")
+
 
 #Graph of individuals
 #was taking ages to plot
@@ -318,9 +322,14 @@ tsne_plot <- ggplot(tsne_df, aes(x = tsne_x, y = tsne_y, colour = cluster_id)) +
         axis.title.y = element_text(margin = margin(r = 10)),
         plot.margin = unit(c(1, 1, 1, 1), "cm"))
 
+#Final plot for figure
+plot_grid(tsne_plot, labels = "B")
+
+
 #Clustering plot
+#Using 3 clusters
 tsne_df$cluster_id <- factor(km$cluster)
-ggplot(tsne_df, aes(x = tsne_x, y = tsne_y, colour = cluster_id)) +
+tsne_3clusters <- ggplot(tsne_df, aes(x = tsne_x, y = tsne_y, colour = cluster_id)) +
   geom_point() +
   scale_colour_viridis_d() +
   xlab("t-SNE dimension 1") +
@@ -332,30 +341,17 @@ ggplot(tsne_df, aes(x = tsne_x, y = tsne_y, colour = cluster_id)) +
         axis.title.x = element_text(margin = margin(t = 10)),
         axis.title.y = element_text(margin = margin(r = 10)),
         plot.margin = unit(c(1, 1, 1, 1), "cm"))
+
+#Final plot for figure
+#Using 3 clusters
+plot_grid(tsne_3clusters, labels = "A")
         
 
 
 #umap
 umap_df <- data.frame(umap)
 umap_df$cluster_id <- factor(km.out$cluster)
-ggplot(umap_df, aes(x = X1, y = X2, colour = cluster_id)) +
-  geom_point() +
-  scale_colour_viridis_d() +
-  xlab("UMAP dimension 1") +
-  ylab("UMAP dimension 2") +
-  labs(colour = "Cluster") +
-  theme(panel.background = element_rect(fill = "white"),
-        axis.line = element_line(colour = "black"),
-        axis.title = element_text(face = "bold", size = 12),
-        axis.title.x = element_text(margin = margin(t = 10)),
-        axis.title.y = element_text(margin = margin(r = 10)),
-        plot.margin = unit(c(1, 1, 1, 1), "cm"))
-
-
-#Clustering plot
-clustering_df <- data.frame(umap)
-clustering_df$cluster_id <- factor(km$cluster)
-ggplot(clustering_df, aes(x = X1, y = X2, colour = cluster_id)) +
+umap_plot <- ggplot(umap_df, aes(x = X1, y = X2, colour = cluster_id)) +
   geom_point() +
   scale_colour_viridis_d() +
   xlab("UMAP dimension 1") +
@@ -370,7 +366,57 @@ ggplot(clustering_df, aes(x = X1, y = X2, colour = cluster_id)) +
 
 
 
-#Final figure
-plot_grid(PC1_PC9_plot, labels = "A")
+##### Clustering analysis #####
+
+#Once the correct number of clusters had been identified, 3
+#the clustering was analysed
+
+#Cluster sizes
+cluster_sizes <- km$size
+cluster_sizes <- tibble(cluster_sizes) %>%
+  mutate(cluster = 1:3) %>%
+  relocate(cluster, .before = cluster_sizes)
+
+cluster_sizes_plot <- cluster_sizes %>%
+  ggplot(aes(x = cluster, y = cluster_sizes, fill = cluster)) +
+  geom_col() +
+  scale_fill_viridis_c() +
+  xlab("Cluster") +
+  ylab("Number of sequences") +
+  theme(panel.background = element_rect(fill = "white"),
+        axis.line = element_line(colour = "black"),
+        axis.title = element_text(size = 14, face = "bold"),
+        axis.title.x = element_text(margin = margin(t = 10)),
+        axis.title.y = element_text(margin = margin(r = 10)),
+        axis.text = element_text(size = 10),
+        legend.position = "none")  
+
+#Final plot for figure
+plot_grid(cluster_size_plot, labels = "B")
+
+#Kruskal-Wallis test for statistical significance
+kruskal.test(cluster_sizes$cluster_sizes ~ cluster_sizes$cluster)
+
+
+#Centroids
+centroids <- km$centers
+#Gives me the coordinates in t-SNE dimensional space
+#Need to calculate the index of sequence that is the
+#closet to the centroid of cluster
+#Going to calculate Euclidean distance between the
+#centroid and all the individual points
+cluster_index <- 0
+
+for(i in 1:nrow(centroids)) {
+  function(x){
+    sqrt((tsne_x - ?)^2 + (tsne_y - ?)^2)
+  }
+}
+
+
+
+
+
+
 
 
