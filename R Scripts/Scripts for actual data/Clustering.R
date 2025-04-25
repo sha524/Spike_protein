@@ -293,7 +293,7 @@ PC1_PC2_plot <- ggplot(my_pca_data, aes(x = PC1, y = PC2, colour = cluster_id)) 
         axis.title.y = element_text(margin = margin(r = 10)),
         plot.margin = unit(c(1, 1, 1, 1), "cm"))
   
-#Final plot for figrue
+#Final plot for figure
 plot_grid(PC1_PC2_plot, labels = "A")
 
 
@@ -401,19 +401,45 @@ kruskal.test(cluster_sizes$cluster_sizes ~ cluster_sizes$cluster)
 #Centroids
 centroids <- km$centers
 #Gives me the coordinates in t-SNE dimensional space
-#Need to calculate the index of sequence that is the
-#closet to the centroid of cluster
+#Need to find the index of sequence that is the
+#closet to the centroid of each cluster
 #Going to calculate Euclidean distance between the
 #centroid and all the individual points
-cluster_index <- 0
 
-for(i in 1:nrow(centroids)) {
-  function(x){
-    sqrt((tsne_x - ?)^2 + (tsne_y - ?)^2)
+#Storing the sequence index, same length as centroids
+cluster_index <- nrow(centroids)  
+
+#Using a nested for loop
+#First for loop, loops through centroids
+for (i in 1:nrow(centroids)) {
+#dist is storing the Euclidean distances, same length as tsne_df
+  dist <- nrow(tsne_df)
+#Second for loop, loops through all tsne_df coordinates
+  for (x in 1:nrow(tsne_df)) {
+#Calculating the Euclidean distances between each centroid and and all the values of tsne_df    
+    dist[x] <- sqrt((centroids[i, 1] - tsne_df[x, 1])^2 + (centroids[i, 2] - tsne_df[x, 2])^2)
   }
+#Closet sequence to each of the 3 centroids  
+  cluster_index[i] <- which.min(dist)    
 }
 
 
+
+#What mutations are present in the centroids?
+
+#Cluster I
+present_cluster_I <- colSums(clustering_data[36961, ]) == 1
+which(present_cluster_I == TRUE)
+
+
+#Cluster II
+present_cluster_II <- colSums(clustering_data[26260, ]) == 1
+which(present_cluster_II == TRUE)
+
+
+#Cluster III
+present_cluster_III <- colSums(clustering_data[41207, ]) == 1
+which(present_cluster_III)
 
 
 
