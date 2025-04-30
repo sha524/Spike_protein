@@ -6,10 +6,11 @@
 ## Introduction to the project
 ### Aims:
 
-- Provide a complete overview of the general dataset trends
-- Investigate the clustering and distribution of SARS-CoV-2 spike protein mutations in the UK
-- Identify and characterise common spike mutations and non vs syn mutations
-- Analyse their potential effects on viral infectivity, linking to the receptor binding domain/receptor binding motif
+1.	Provide a complete overview of the general dataset trends
+2.	Dimensionality reduction and cluster selection
+3.	Clustering analysis
+4.	Mutation analysis
+
 
 
 ### Purpose:
@@ -23,7 +24,7 @@ R was used for the majority of the analysis
 
 git lfs was used for storage of large files
 
-[Moorhen](https://github.com/moorhen-coot/Moorhen) is a molecular graphics software used to produce protein structures in the report
+[PyMol](https://github.com/schrodinger/pymol-open-source) is a molecular graphics software used to produce protein structures in the report
 
 
 **R packages used:**
