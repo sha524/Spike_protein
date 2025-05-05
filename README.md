@@ -95,6 +95,11 @@ Word document used for the analysis
 
 R project used for general organisation and management
 
+#### **Supplementary information**
+
+In the Plots and Figures folder is a subfolder titled Supplementary figures - this folder contains the supplementary figures
+
+
 
 ## How to use this Research Compendium
 
@@ -117,12 +122,21 @@ Scripts that relate to figures have been shown
 **Clustering and the distribution of mutations**
 
 1. pivot_wider.R
-2. Clustering.R ➡️ Figure 4, Figure 5, Figure 6 and Figure 7
-3. Mapping.R ➡️ Figure 8
+2. Clustering.R ➡️ Figure 4, Figure 5, Figure 6
 
 **Mutation analysis**
 
-1. X ➡️ 
+1. Cluster.R
+2. Number of mutations per sequence.R
 
+
+Country of origin.R and Mapping.R contain the scripts that were going to form the basis of the geographical distribution analysis, however, this did not occur
+
+
+## Conclusion ##
+This compendium should provide the relevant information on the scripts used for the analysis
+
+### Acknowlegements ###
+Creative Lab University of York, datacamp, riffomonas project and other online resources used for helping with R, git and any other applications used
 
 
