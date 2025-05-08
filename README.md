@@ -63,6 +63,7 @@ Dimensionality reduction
 - umap
 - uwot
 
+A seed was set in RStudio for reproducibility, using set.seed(123)
 
 ## The files
 
@@ -131,6 +132,17 @@ Scripts that relate to figures have been shown
 
 
 Country of origin.R and Mapping.R contain the scripts that were going to form the basis of the geographical distribution analysis, however, this did not occur
+
+## Clustering and dimensionality reduction parameters ##
+
+- **K-means** ➡️ Parameters used: nstart of 10, centers equal to 1:10 and 3 once the number of clusters had been selected
+
+- **PCA** ➡️ Default parameters used
+
+- **t-SNE** ➡️ The algorithm was performed using a perplexity of 30, 500 iterations and the data was reduced to two dimensions to aid visualisation
+
+- **UMAP** ➡️ The following default parameters were used: n_neighbors set to 15, min_dist of 0.1 and the n_components equal to 2
+
 
 
 ## Conclusion ##
