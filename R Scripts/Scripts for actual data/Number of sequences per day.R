@@ -93,10 +93,8 @@ actual_sequences_per_day <- UK_sequences_df %>%
 
 ###### Plot the number of sequences per day ######
 main_plot <- ggplot(actual_sequences_per_day, aes(x = Sample_date, y = n, colour = Sample_date)) +
-  geom_col() +
-  geom_smooth(method = "gam", se = FALSE, linewidth = 1.5, colour = "black") +
   geom_rect(aes(xmin = as.Date("2020-05-01"), xmax = as.Date("2020-09-01"),
-            ymin = 0, ymax = 16000, fill = "red"), alpha = .003,
+                ymin = 0, ymax = 16000, fill = "red"), alpha = .003,
             colour = "yellow", linetype = "dashed") +
   geom_rect(aes(xmin = as.Date("2020-09-01"), xmax = as.Date("2020-10-01"),
                 ymin = 0, ymax = 16000, fill = "blue"), alpha = 0.003,
@@ -110,6 +108,8 @@ main_plot <- ggplot(actual_sequences_per_day, aes(x = Sample_date, y = n, colour
   geom_rect(aes(xmin = as.Date("2021-11-09"), xmax = as.Date("2024-12-29"),
                 ymin = 0, ymax = 16000, fill = "purple"), alpha = 0.003,
             colour = "green", linetype = "dashed") +
+  geom_col() +
+  geom_smooth(method = "gam", se = FALSE, linewidth = 1.2, colour = "black") +
   annotate("text", x = as.Date("2020-05-10"), y = 15500,
            label = expression(beta), size = 5, colour = "black",) +
   annotate("text", x = as.Date("2020-09-18"), y = 15500,
@@ -133,7 +133,7 @@ main_plot <- ggplot(actual_sequences_per_day, aes(x = Sample_date, y = n, colour
         plot.margin = unit(c(1, 1, 1, 1), "cm"),
         axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 0.5, size = 10),
         axis.title.x = element_text(size = 15, face = "bold"),
-        axis.title.y = element_text(size = 15, face = "bold")) +
+        axis.title.y = element_text(margin = margin(r = 10), size = 15, face = "bold")) +
   labs(colour = "Sample date") +
   scale_fill_manual(name = "SARS-CoV-2 strain", 
                     values = c("red", "blue", "green", "yellow", "purple"))
@@ -194,6 +194,7 @@ plot_2020 <- ggplot(year_2020, aes(x = year_2020, y = n)) +
   theme(panel.background = element_rect(fill = "white"),
         axis.line = element_line(colour = "black"),
         axis.title = element_text(face = "bold"),
+        axis.title.y = element_text(margin = margin(r = 10)),
         plot.margin = unit(c(1, 1, 1, 1), "cm"))
   
 
@@ -213,6 +214,7 @@ plot_2021 <- ggplot(year_2021, aes(x = year_2021, y = n)) +
   theme(panel.background = element_rect(fill = "white"),
         axis.line = element_line(colour = "black"),
         axis.title = element_text(face = "bold"),
+        axis.title.y = element_text(margin = margin(r = 10)),
         plot.margin = unit(c(1, 1, 1, 1), "cm"))
 
 
@@ -233,6 +235,7 @@ plot_2022 <- ggplot(year_2022, aes(x = year_2022, y = n)) +
   theme(panel.background = element_rect(fill = "white"),
         axis.line = element_line(colour = "black"),
         axis.title = element_text(face = "bold"),
+        axis.title.y = element_text(margin = margin(r = 10)),
         plot.margin = unit(c(1, 1, 1, 1), "cm"))
 
 
@@ -253,6 +256,7 @@ plot_2023 <- ggplot(year_2023, aes(x = year_2023, y = n)) +
   theme(panel.background = element_rect(fill = "white"),
         axis.line = element_line(colour = "black"),
         axis.title = element_text(face = "bold"),
+        axis.title.y = element_text(margin = margin(r = 10)),
         plot.margin = unit(c(1, 1, 1, 1), "cm"))
 
 
@@ -273,6 +277,7 @@ plot_2024 <- ggplot(year_2024, aes(x = year_2024, y = n)) +
   theme(panel.background = element_rect(fill = "white"),
         axis.line = element_line(colour = "black"),
         axis.title = element_text(face = "bold"),
+        axis.title.y = element_text(margin = margin(r = 10)),
         plot.margin = unit(c(1, 1, 1, 1), "cm"))
 
 
