@@ -3,8 +3,8 @@
 # Analysis of SARS-CoV-2 spike protein mutations in the UK
 
 
-## Introduction to the project
-### Aims:
+## Introduction to the project ##
+### Aims: ###
 
 1.	Provide a complete overview of the general dataset trends
 2.	Dimensionality reduction and cluster selection
@@ -13,11 +13,11 @@
 
 
 
-### Purpose:
+### Purpose: ###
 - Respository containing all the files used in the analysis
 - This includes the R scripts, the figures generated, the data used and the respository
 
-### Analysis:
+### Analysis: ###
 Git was used alongside GitHub for version control and to maintain a remote respository
 
 R was used for the majority of the analysis
@@ -65,44 +65,42 @@ Dimensionality reduction
 
 A seed was set in RStudio for reproducibility, using set.seed(123)
 
-## The files
+## The files ##
 
 **What does each file contain**❔
 
-#### **data**
+#### **data** ####
 UK_seqs_msa_0522_spike_mutations.txt ➡️ Complete sequence data with unique identifier and mutation information
 
 test_UK_seqs_msa_0522_spike_mutations.txt ➡️ First 100 sequences from the sequence data
 
-#### **Plots and figures**
+#### **Plots and figures** ####
 
 Practice ➡️ Any figures produced using the practice data
 
 Real plots and figures ➡️ Figures for the report
 
-#### **R scripts**
+#### **R scripts** ####
 
 Practice scripts ➡️ Scripts for testing analysis before implementing on the actual data. I have kept a lot of the code, most of it is commented out, this was to allow an outside user to see how any problems were overcome
 
 Scripts for actual data ➡️ Scripts where the analysis for the report was performed
 
-Data structure names ➡️ Names of the important data structures alongwith a description of what the structure contains
-
-#### **Report**
+#### **Report** ####
 
 Word document used for the analysis
 
-#### **Research Project**
+#### **Research Project** ####
 
 R project used for general organisation and management
 
-#### **Supplementary information**
+#### **Supplementary information** ####
 
 In the Plots and Figures folder is a subfolder titled Supplementary figures - this folder contains the supplementary figures
 
 
 
-## How to use this Research Compendium
+## How to use this Research Compendium ##
 
 - Open Research Project
 
@@ -148,7 +146,7 @@ Country of origin.R and Mapping.R contain the scripts that were going to form th
 ## Conclusion ##
 This compendium should provide the relevant information on the scripts used for the analysis
 
-### Acknowlegements ###
+## Acknowlegements ##
 Creative Lab University of York, datacamp, riffomonas project and other online resources used for helping with R, git and any other applications used
 
 
