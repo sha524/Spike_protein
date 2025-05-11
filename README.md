@@ -98,6 +98,9 @@ R project used for general organisation and management
 
 In the Plots and Figures folder is a subfolder titled Supplementary figures - this folder contains the supplementary figures
 
+#### **Poster** ####
+The poster for the project
+
 
 
 ## How to use this Research Compendium ##
@@ -125,7 +128,7 @@ Scripts that relate to figures have been shown
 
 **Mutation analysis**
 
-1. Cluster.R
+1. Clustering.R
 2. Number of mutations per sequence.R
 
 
